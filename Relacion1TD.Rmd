@@ -1,0 +1,275 @@
+---
+title: "Teoría de la decisión"
+subtitle: "Relación 1"
+author: "Marta Venegas Pardo"
+output: 
+  prettydoc::html_pretty:
+    theme: leonids
+    highlight: github
+    toc: true
+    toc_depth: 4
+    number_section: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Funciones necesarias
+```{r}
+source("teoriadecision_funciones_incertidumbre.R")
+```
+
+
+
+# Ejercicio 1. Criterios de decisión
+
+
+
+Aplicar los criterios de decisión bajo incertidumbre a los problemas cuya matriz de valores numéricos vienen dadas en las tablas siguientes:
+
+
+
+## Apartado a)
+
+
+| Col1 | Col2 | Col3 | Col4 |   
+|------|------|------|------|
+| $d_1$ | 5  |   4   |  6    |
+| $d_2$ | 2  |   3   |  1    |
+| $d_3$ | -1 |   8   |  7    |
+| $d_4$ | 5  |   2   |  0    |
+| FAVORABLE |
+
+
+```{r}
+# Introducimos los datos en R en forma de matriz:
+X = matrix(c(5,4,6,2,3,1,-1,8,7,5,2,0),nrow=4,ncol=3,byrow=TRUE)
+colnames(X)=c('e1','e2','e3')
+rownames(X)=c('d1','d2','d3','d4')
+X
+```
+
+
+
+
+### Criterio de Wald o Pesimista
+```{r}
+criterio.Wald(X)
+```
+
+
+### Criterio optimista 
+```{r}
+criterio.Optimista(X)
+```
+
+### Hurwixcz
+```{r}
+criterio.Hurwicz(X)
+```
+
+
+#### Dibujo 
+```{r}
+dibuja.criterio.Hurwicz(X)
+```
+
+
+### Savage 
+```{r}
+criterio.Savage(X)
+```
+
+### Laplace
+```{r}
+criterio.Laplace(X)
+```
+
+
+### Punto ideal
+```{r}
+criterio.PuntoIdeal(X)
+```
+
+
+
+### Todos
+
+
+```{r}
+criterio.Todos(X)
+```
+
+
+
+## Apartado b)
+
+| Col1 | Col2 | Col3 | Col4 |   
+|------|------|------|------|
+| $d_1$ | 2  |   12   |  -3    |
+| $d_2$ | 5  |   5   |  -1    |
+| $d_3$ | 0 |    10   |  -2    |
+| DESFAVORABLE |
+
+
+
+### Criterio de Wald o Pesimista
+```{r}
+criterio.Wald(X,favorable = FALSE)
+```
+
+
+### Criterio optimista 
+```{r}
+criterio.Optimista(X,favorable = FALSE)
+```
+
+### Hurwixcz
+```{r}
+criterio.Hurwicz(X,favorable = FALSE,alfa = 0.5)
+```
+
+
+#### Dibujo 
+```{r}
+dibuja.criterio.Hurwicz(X,favorable = FALSE)
+```
+
+
+### Savage 
+```{r}
+criterio.Savage(X,favorable = FALSE)
+```
+
+### Laplace
+```{r}
+criterio.Laplace(X,favorable = FALSE)
+```
+
+
+### Punto ideal
+```{r}
+criterio.PuntoIdeal(X,favorable = FALSE)
+```
+
+### Todos
+
+```{r}
+criterio.Todos(X,favorable = FALSE)
+```
+
+
+
+
+# Ejercicio 2. Criterio de Hurwixcz
+
+Aplicar el criterio de Hurwicz al problema de decisión bajo incertidumbre dado por la matriz de utilidades (valor numérico que representa beneficio):
+
+
+
+| Col1 | Col2 | Col3 | Col4 |   
+|------|------|------|------|
+| $d_1$ | 0  |   1   |  0    |
+| $d_2$ | 1  |   0   |  0    |
+| $d_3$ | 1/2 |   1/2   |  0    |
+| BENEFICIO |
+
+
+
+```{r}
+# Introducimos los datos en R en forma de matriz:
+X = matrix(c(0,1,0,1,0,0,1/2,1/2,0),nrow=3,ncol=3,byrow=TRUE)
+colnames(X)=c('e1','e2','e3')
+rownames(X)=c('d1','d2','d3')
+X
+```
+
+
+```{r}
+criterio.Hurwicz(X)
+```
+
+Luego, la mejor alternativa según este criterio, son la d1 y d2, con valor óptimo \(0,3\).
+
+
+# Ejercicio 3. Fabricante de coches
+
+Un fabricante de coches estudia lanzar un nuevo modelo al mercado, pudiéndolo posicionar en cuatro segmentos distintos. Los segmentos candidatos son: deportivo bajo coste, berlina familiar media, monovolumen y todo terreno. Los beneficios esperados (expresados en millones de euros) en el año siguiente al lanzamiento en función del tipo de interés al consumo son:
+
+
+| $E_1$ | $E_2$ | $E_3$ | $E_4$ |   
+|------|------|------|------|
+| Deportivo | 24  |   19   |  19    | 16|
+| Berlina | 22  |   22   |  23    |20|
+| Monovolumen | 23 |   23   |  21    |15|
+| Todo-terreno | 25 |   24   |  18    |14|
+| BENEFICIO |
+
+
+
+```{r}
+# Introducimos los datos en R en forma de matriz:
+X = matrix(c(24,19,19,16,22,22,23,20,23,23,21,15,25,24,18,14),nrow=4,ncol=4,byrow=TRUE)
+colnames(X)=c('Deportivo','Berlina','Monovolumen','Todo-terreno')
+rownames(X)=c('E1','E2','E3','E4')
+X
+```
+
+```{r}
+criterio.Todos(X)
+```
+
+La alternativa que recomendamos, y por tanto con la que mayor beneficio obtendremos es la segunda, es decir, lanzar un nuevo modelo de berlina.
+
+Si se tratara de una empresa arriesgada, nos decantaríamos por lanzar un nuevo modelo Todo-terreno.
+
+
+
+
+# Ejercicio 4. Seguro médico
+
+Ana está estudiando la posibilidad de darse de alta en un seguro médico privado. Se ha informado sobre varias aseguradoras, que le han dado los siguientes informes:
+
+- Con Security debe pagar una cuota mensual de 30 euros, pero no cubre todos los gastos sanitarios hasta que no ha pasado un año y, hasta entonces sólo cubre la mitad.
+
+- Con Curadita tiene la posibilidad de cubrir todos los gastos desde el principio, pero eso supone que debe pagar una cuota de 60 euros al mes.
+
+- Con Preventiva s.a. debe pagar una cuota mensual de 40 euros, lo que le cubrirá todos los gastos exceptuando el ingreso en clínica.
+
+Ana quiere tener un bebé cuanto antes y cree que puede quedarse embarazada y dar a luz o antes de un año o después. Sabiendo que los gastos de una embarazada son:
+
+- Visitas médicas, análisis, ecografías, etc.: 600 euros.
+- Gastos derivados del parto (ingreso en clínica): 3000 euros.
+
+
+¿Qué le recomendaría si quiere evaluar el coste que tendría el primer año?
+
+
+
+| Seguro/Coste | Antes año | Despues año |  
+|------|------|------|
+| $Security$ | 30 (mes) + 300 + 1500  |   30(mes)   |  
+| $Cuadrita$ | 60(mes)+ 0  |   60(mes)   |  
+| $Preventiva$ | 40(mes)+ 3000 |   40(mes)+3000   |  
+
+| Costos |
+
+
+```{r}
+# Introducimos los datos en R en forma de matriz:
+X = matrix(c(30*12+300+1500,30*12,
+             60*12+0,60*12,
+             40*12+3000,40*12+3000
+             ),nrow=3,ncol=2,byrow=TRUE)
+rownames(X)=c('Security','Cuadrita','Preventiva')
+colnames(X)=c('Antes','Despues')
+X
+```
+
+```{r}
+criterio.Todos(X,favorable = FALSE)
+```
+Debe elegir el seguro cuadrita, y tendrá un coste de 720 euros en total, lo tenga antes o después.
+Sin embargo, si es una persona optimista y no le importa arriesgar, podría elegir el seguro Security. Si tiene el hijo antes de un año le costaría 2160 (mucho dinero), pero si espera a tenerlo después de un año, le costaría únicamente 360 euros.
