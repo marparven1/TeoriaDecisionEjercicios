@@ -15,33 +15,25 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
 # Funciones necesarias
+
 ```{r}
 source("teoriadecision_funciones_incertidumbre.R")
 ```
 
-
-
 # Ejercicio 1. Criterios de decisión
-
-
 
 Aplicar los criterios de decisión bajo incertidumbre a los problemas cuya matriz de valores numéricos vienen dadas en las tablas siguientes:
 
-
-
 ## Apartado a)
 
-
-| Col1 | Col2 | Col3 | Col4 |   
-|------|------|------|------|
-| $d_1$ | 5  |   4   |  6    |
-| $d_2$ | 2  |   3   |  1    |
-| $d_3$ | -1 |   8   |  7    |
-| $d_4$ | 5  |   2   |  0    |
-| FAVORABLE |
-
+| Col1      | Col2 | Col3 | Col4 |
+|-----------|------|------|------|
+| $d_1$     | 5    | 4    | 6    |
+| $d_2$     | 2    | 3    | 1    |
+| $d_3$     | -1   | 8    | 7    |
+| $d_4$     | 5    | 2    | 0    |
+| FAVORABLE |      |      |      |
 
 ```{r}
 # Introducimos los datos en R en forma de matriz:
@@ -51,105 +43,101 @@ rownames(X)=c('d1','d2','d3','d4')
 X
 ```
 
-
-
-
 ### Criterio de Wald o Pesimista
+
 ```{r}
 criterio.Wald(X)
 ```
 
+### Criterio optimista
 
-### Criterio optimista 
 ```{r}
 criterio.Optimista(X)
 ```
 
 ### Hurwixcz
+
 ```{r}
 criterio.Hurwicz(X)
 ```
 
+#### Dibujo
 
-#### Dibujo 
 ```{r}
 dibuja.criterio.Hurwicz(X)
 ```
 
+### Savage
 
-### Savage 
 ```{r}
 criterio.Savage(X)
 ```
 
 ### Laplace
+
 ```{r}
 criterio.Laplace(X)
 ```
 
-
 ### Punto ideal
+
 ```{r}
 criterio.PuntoIdeal(X)
 ```
 
-
-
 ### Todos
-
 
 ```{r}
 criterio.Todos(X)
 ```
 
-
-
 ## Apartado b)
 
-| Col1 | Col2 | Col3 | Col4 |   
-|------|------|------|------|
-| $d_1$ | 2  |   12   |  -3    |
-| $d_2$ | 5  |   5   |  -1    |
-| $d_3$ | 0 |    10   |  -2    |
-| DESFAVORABLE |
-
-
+| Col1         | Col2 | Col3 | Col4 |
+|--------------|------|------|------|
+| $d_1$        | 2    | 12   | -3   |
+| $d_2$        | 5    | 5    | -1   |
+| $d_3$        | 0    | 10   | -2   |
+| DESFAVORABLE |      |      |      |
 
 ### Criterio de Wald o Pesimista
+
 ```{r}
 criterio.Wald(X,favorable = FALSE)
 ```
 
+### Criterio optimista
 
-### Criterio optimista 
 ```{r}
 criterio.Optimista(X,favorable = FALSE)
 ```
 
 ### Hurwixcz
+
 ```{r}
 criterio.Hurwicz(X,favorable = FALSE,alfa = 0.5)
 ```
 
+#### Dibujo
 
-#### Dibujo 
 ```{r}
 dibuja.criterio.Hurwicz(X,favorable = FALSE)
 ```
 
+### Savage
 
-### Savage 
 ```{r}
 criterio.Savage(X,favorable = FALSE)
 ```
 
 ### Laplace
+
 ```{r}
 criterio.Laplace(X,favorable = FALSE)
 ```
 
-
 ### Punto ideal
+
 ```{r}
 criterio.PuntoIdeal(X,favorable = FALSE)
 ```
@@ -160,23 +148,16 @@ criterio.PuntoIdeal(X,favorable = FALSE)
 criterio.Todos(X,favorable = FALSE)
 ```
 
-
-
-
 # Ejercicio 2. Criterio de Hurwixcz
 
 Aplicar el criterio de Hurwicz al problema de decisión bajo incertidumbre dado por la matriz de utilidades (valor numérico que representa beneficio):
 
-
-
-| Col1 | Col2 | Col3 | Col4 |   
-|------|------|------|------|
-| $d_1$ | 0  |   1   |  0    |
-| $d_2$ | 1  |   0   |  0    |
-| $d_3$ | 1/2 |   1/2   |  0    |
-| BENEFICIO |
-
-
+| Col1      | Col2 | Col3 | Col4 |
+|-----------|------|------|------|
+| $d_1$     | 0    | 1    | 0    |
+| $d_2$     | 1    | 0    | 0    |
+| $d_3$     | 1/2  | 1/2  | 0    |
+| BENEFICIO |      |      |      |
 
 ```{r}
 # Introducimos los datos en R en forma de matriz:
@@ -186,28 +167,23 @@ rownames(X)=c('d1','d2','d3')
 X
 ```
 
-
 ```{r}
 criterio.Hurwicz(X)
 ```
 
-Luego, la mejor alternativa según este criterio, son la d1 y d2, con valor óptimo \(0,3\).
-
+Luego, la mejor alternativa según este criterio, son la d1 y d2, con valor óptimo $0,3$.
 
 # Ejercicio 3. Fabricante de coches
 
 Un fabricante de coches estudia lanzar un nuevo modelo al mercado, pudiéndolo posicionar en cuatro segmentos distintos. Los segmentos candidatos son: deportivo bajo coste, berlina familiar media, monovolumen y todo terreno. Los beneficios esperados (expresados en millones de euros) en el año siguiente al lanzamiento en función del tipo de interés al consumo son:
 
-
-| $E_1$ | $E_2$ | $E_3$ | $E_4$ |   
-|------|------|------|------|
-| Deportivo | 24  |   19   |  19    | 16|
-| Berlina | 22  |   22   |  23    |20|
-| Monovolumen | 23 |   23   |  21    |15|
-| Todo-terreno | 25 |   24   |  18    |14|
-| BENEFICIO |
-
-
+| $E_1$        | $E_2$ | $E_3$ | $E_4$ |
+|--------------|-------|-------|-------|
+| Deportivo    | 24    | 19    | 19    |
+| Berlina      | 22    | 22    | 23    |
+| Monovolumen  | 23    | 23    | 21    |
+| Todo-terreno | 25    | 24    | 18    |
+| BENEFICIO    |       |       |       |
 
 ```{r}
 # Introducimos los datos en R en forma de matriz:
@@ -225,39 +201,76 @@ La alternativa que recomendamos, y por tanto con la que mayor beneficio obtendre
 
 Si se tratara de una empresa arriesgada, nos decantaríamos por lanzar un nuevo modelo Todo-terreno.
 
-
-
-
 # Ejercicio 4. Seguro médico
 
 Ana está estudiando la posibilidad de darse de alta en un seguro médico privado. Se ha informado sobre varias aseguradoras, que le han dado los siguientes informes:
 
-- Con Security debe pagar una cuota mensual de 30 euros, pero no cubre todos los gastos sanitarios hasta que no ha pasado un año y, hasta entonces sólo cubre la mitad.
+-   Con Security debe pagar una cuota mensual de 30 euros, pero no cubre todos los gastos sanitarios hasta que no ha pasado un año y, hasta entonces sólo cubre la mitad.
 
-- Con Curadita tiene la posibilidad de cubrir todos los gastos desde el principio, pero eso supone que debe pagar una cuota de 60 euros al mes.
+-   Con Curadita tiene la posibilidad de cubrir todos los gastos desde el principio, pero eso supone que debe pagar una cuota de 60 euros al mes.
 
-- Con Preventiva s.a. debe pagar una cuota mensual de 40 euros, lo que le cubrirá todos los gastos exceptuando el ingreso en clínica.
+-   Con Preventiva s.a. debe pagar una cuota mensual de 40 euros, lo que le cubrirá todos los gastos exceptuando el ingreso en clínica.
 
 Ana quiere tener un bebé cuanto antes y cree que puede quedarse embarazada y dar a luz o antes de un año o después. Sabiendo que los gastos de una embarazada son:
 
-- Visitas médicas, análisis, ecografías, etc.: 600 euros.
-- Gastos derivados del parto (ingreso en clínica): 3000 euros.
+-   Visitas médicas, análisis, ecografías, etc.: 600 euros.
+-   Gastos derivados del parto (ingreso en clínica): 3000 euros.
 
+Los estados de la naturaleza son *Antes de un año* o *Después de un año*.
 
-¿Qué le recomendaría si quiere evaluar el coste que tendría el primer año?
+¿Qué le recomendaría si quiere evaluar el coste que tendría el primer año? Es decir, no miro más allá de un año, sólo miro los costos que tendría dentro de un año.
 
+Planteamiento:
 
+-   Un decisor
 
-| Seguro/Coste | Antes año | Despues año |  
-|------|------|------|
-| $Security$ | 30 (mes) + 300 + 1500  |   30(mes)   |  
-| $Cuadrita$ | 60(mes)+ 0  |   60(mes)   |  
-| $Preventiva$ | 40(mes)+ 3000 |   40(mes)+3000   |  
+-   Modelo de costos
 
-| Costos |
+-   Alternativas:
 
+    -   d1="Security"
+    -   d2="Cuadrita"
+    -   d3="Preventiva"
+
+-   Estados de la naturaleza:
+
+    -   e1 = "Da a luz antes de un año"
+    -   e2 = "--- después de un año"
+
+-   Tabla de valoraciones:
+
+    -   Alternativa d1:
+
+        -   $x_{1,1}$= `r 30*12 + (600+3000)/2`
+        -   $x_{1,2}$= `r 30*12`
+        
+    -   Alternativa d2:
+
+        -   $x_{2,1}$= `r 60*12`
+        -   $x_{2,2}$= `r 60*12` 
+        
+    -   Alternativa d1:
+
+        -   $x_{3,1}$= `r 40*12 +3000`
+        -   $x_{3,2}$= `r 40*12 +3000` 
+        
+
+| Seguro/Coste | Antes año             | Despues año  |
+|--------------|-----------------------|--------------|
+| $Security$   | 30 (mes) + 300 + 1500 | 30(mes)      |
+| $Cuadrita$   | 60(mes)               | 60(mes)      |
+| $Preventiva$ | 40(mes)+ 3000         | 40(mes)+3000 |
+| Costos       |                       |              |
 
 ```{r}
+tb04=crea.tablaX(vector_matporfilas = c(30*12+300+1500,30*12,
+             60*12+0,60*12,
+             40*12+3000,40*12+3000
+             ),numalternativas = 3,numestados = 2
+              )
+# tb04
+
+
 # Introducimos los datos en R en forma de matriz:
 X = matrix(c(30*12+300+1500,30*12,
              60*12+0,60*12,
@@ -268,8 +281,311 @@ colnames(X)=c('Antes','Despues')
 X
 ```
 
+Como no nos dan información sobre el decisor, vamos a itilizar todos los criterios eligiendo la alternativa óptima la mayoritaria.
+
 ```{r}
-criterio.Todos(X,favorable = FALSE)
+criterio.Todos(X,
+               favorable = FALSE,
+               alfa = 0.6 #grado de optimismo, en costos multiplica al mínimo. En nuestro caso es algo un poco optimista
+               )
 ```
-Debe elegir el seguro cuadrita, y tendrá un coste de 720 euros en total, lo tenga antes o después.
+
+La mejor alternativa es el seguro _Cuadrita_, tendrá un coste de 720 euros en total, lo tenga antes o después. 
+
+
+Para $\alpha = 0.5$,
 Sin embargo, si es una persona optimista y no le importa arriesgar, podría elegir el seguro Security. Si tiene el hijo antes de un año le costaría 2160 (mucho dinero), pero si espera a tenerlo después de un año, le costaría únicamente 360 euros.
+
+# Ejercicio 5. Cena con amigos
+
+Rosa y Manolo están tratando de decidir dónde van a ir a cenar esta noche con unos amigos, y no acaban de ponerse de acuerdo, así que a ver si usted les ayuda.
+
+Tienen las siguientes opciones:
+
+- El restaurante “La música loca”, donde pagando 60 euros pueden comer lo que quieran, tienen barra libre y música para bailar hasta altas horas de la madrugada si lo desean. Si estuviesen hasta muy tarde, volverían en taxi, lo que les costaría 5 euros y en otro caso volverían andando.
+
+- El restaurante “El Baratito” les ofrece sólo la posibilidad de comer, a un precio bastante económico, 30 euros, pero allí no pueden bailar ni tomar copas. Además, ese restaurante está muy lejos de la zona de marcha de su ciudad. Eso les obligaría, si les apeteciese, a coger un taxi hacia la zona de copas, lo que les costaría 6 euros, y a gastarse allí 10 euros en la entrada de una discoteca y otros 30 euros en copas, más el taxi de vuelta que supondría 10 euros. Si no les apeteciese ir de copas, se irían a casa dando un paseo.
+
+- La última posibilidad consiste en cenar en un restaurante al lado de su casa, donde la cena cuesta 40 euros. Si quisiesen tomar copas y bailar se gastarían 25 euros más.
+
+
+¿Qué les recomienda usted que hagan, si su objetivo es minimizar los costes?
+
+
+Planteamiento:
+
+-   Un decisor (dos personas que actúan como único decisor)
+
+-   Modelo de costos
+
+-   Alternativas:
+
+    -   d1="La música loca"
+    -   d2="El baratito"
+    -   d3="Restaurante al lado"
+
+-   Estados de la naturaleza:
+
+    -   e1 = "Cenar, copas taxi"
+    -   e2 = "Cenar, volver andando sin copa"
+
+-   Tabla de valoraciones:
+
+    -   Estado e1:
+
+        -   $x_{1,1}$= `r 60*2+5`
+        -   $x_{1,2}$= `r 30*2+6+10*2+30*2+10`
+        -   $x_{1,3}$= `r 40*2+25*2`
+        
+    -   Estado e2:
+
+        -   $x_{2,1}$= `r 60*2`
+        -   $x_{2,2}$= `r 30*2`
+        -   $x_{1,3}$= `r 40*2`
+        
+        
+```{r}
+tb05 = crea.tablaX(c(125,120,
+                     156,60,
+                     130,80),
+                   numalternativas = 3,
+                   numestados = 2)
+tb05
+```
+
+Resolución:
+
+
+Como no nos dan información sobre el decisor, vamos a itilizar todos los criterios eligiendo la alternativa óptima la mayoritaria.
+
+
+```{r}
+sol5=criterio.Todos(tb05,
+               alfa = 0.5,
+               favorable = FALSE #es un modelo de costos
+               )
+sol5
+```
+
+Tenemos que: 
+
+El baratito aparece en un método, al igual que la música loca y Restaurante de al lado aparece en cuatro métodos, por lo que la mejor alternativa es el _Restaurante de al lado_.
+
+
+Dibujamos el criterio de Hurwicz
+
+```{r}
+dibuja.criterio.Hurwicz(tb05,favorable = FALSE)
+```
+Fijandome en la morada, dos valores de alfa, desde el 0 hasta alfa1, donde cortan las 2 primeras es d1 la alternativa elegida, luego donde cortan  la verde y la azul, es elegida la alternativa 3, y a partir de alfa2 en adelante la alternativa 2.
+
+
+# Ejercicio 6. Bolsa
+
+Alberto y Juan son dos amigos que planean invertir una misma cantidad de dinero, concretamente 1000 euros cada uno, en la bolsa, pero como no tienen experiencia han decidido invertirlo en un fondo de inversión. Se les presentan 3 opciones según el porcentaje de renta variable en cada uno de ellos que es del 25%, 50% o del 75%. La repercusión de la situación de la bolsa es de una ganancia o una pérdida del 10% de lo invertido en renta variable según suba o baje la bolsa, y un 4% para la renta fija.
+
+Alberto opina que, al estar la bolsa muy variable, pueden perder todo su dinero y por ello deben ser muy cuidadosos (es algo temeroso al riesgo, pesimista) y Juan piensa que todo va a ir bien (es optimista), ¿qué cree usted que elegirá cada uno de ellos?
+
+
+
+
+Planteamiento:
+
+-   Se trata de dos problemas **diferentes** de un único decisor, uno pesimista y otro optimista. Un decisor (dos personas que deciden de forma independiente)
+
+-   Modelo de beneficios
+
+-   Alternativas:
+
+    -   d1="Porcentaje de renta variable 25% y 75% fijo (250 en variable y 750 en fijo)"
+    -   d2="Porcentaje de renta variable 50% y 50% fijo"
+    -   d3="Porcentaje de renta variable 75% y 25% fijo"
+    
+  
+
+-   Estados de la naturaleza:
+
+    -   e1 = "sube la bolsa (ganan 10% en variable y 4% en fijo)"
+    -   e2 = "baja la bolsa (pierden 10% en variable y ganan 4% en fijo"
+
+-   Tabla de valoraciones (beneficio conseguido para cada uno):
+
+    -   Estado e1:
+
+        -   $x_{1,1}$= `r 250*0.1 + 750*0.04`
+        -   $x_{1,2}$= `r 500*0.1 + 500*0.04`
+        -   $x_{1,3}$= `r 750*0.1 + 250*0.04`
+        
+    -   Estado e2:
+
+        -   $x_{2,1}$= `r -250*0.1 + 750*0.04`
+        -   $x_{2,2}$= `r -500*0.1 + 500*0.04`
+        -   $x_{2,3}$= `r -750*0.1 + 250*0.04`
+        
+Nota: El $4\%$ lo sigo ganando siempre.
+
+        
+```{r}
+tb06 = crea.tablaX(c(55,5,
+                     70,-30,
+                     85,-65),
+                   numalternativas = 3,
+                   numestados = 2)
+tb06
+```
+
+Solución
+
+        
+```{r}
+sol06 <- criterio.Todos(tb06, 
+                        alfa = 0.5 ,
+                        favorable = TRUE)
+sol06
+```
+
+- Para Alberto (pesimista _Wald_) alternativa elegida d1
+- Juan (optimista) la alterantiva elegida es d3
+
+
+
+```{r}
+dibuja.criterio.Hurwicz(tb06,favorable = FALSE)
+```
+
+# Ejercicio 7. Inversión beca
+
+María y un compañero de cuarto curso de carrera, han sido contratados como becarios por una consultora de recursos humanos. El importe de la beca es de 900 euros que percibirán al finalizar los tres meses de contrato.
+Al salir del trabajo el primer día, comentan qué pueden hacer con el dinero de la beca, coincidiendo ambos en las mismas opciones: pueden invertirlo en el negocio de un amigo, que les garantiza, en un año, un beneficio neto del 5% de la cantidad aportada; pueden montar este verano su propio negocio de alquiler de bicicletas, estimando que, si hace buen tiempo durante el verano los beneficios serán del 60% de su aportación, y en caso de que haga mal tiempo asumirán una pérdida del 20% de la aportación. Por último, piensan en la posibilidad de montar un chiringuito, pudiendo doblar la inversión o perderlo todo dependiendo de si el tiempo es bueno o malo.
+
+
+Planteamiento:
+
+-   Se trata de dos problemas **diferentes** de un único decisor, uno pesimista y otro con criterio de Savage (diferencias respecto a lo mejor). Un decisor (dos personas que deciden de forma independiente)
+
+-   Modelo de beneficios (favorable). Van a usar los 900 euros
+
+-   Alternativas:
+
+    -   d1="Invertirlo en negocio de un amigo"
+    -   d2="Negocio de alquiler de bicicletas"
+    -   d3="Montar un chiringuito"
+    
+  
+
+-   Estados de la naturaleza:
+
+    -   e1 = "Hace buen tiempo"
+    -   e2 = "Hace mal tiempo"
+
+-   Tabla de valoraciones (_beneficio_ conseguido para cada uno):
+
+    -   Estado e1:
+
+        -   $x_{1,1}$= 900*0.05 = `r 900*0.05`
+        -   $x_{1,2}$= 900*0.6 = `r 900*0.6`
+        -   $x_{1,3}$= `r 900` 
+        
+    -   Estado e2:
+
+        -   $x_{2,1}$= `r 900*0.05`. No dice nada, puede que no tenga que ver con el tiempo. En cualquier estado de la naturaleza siempre tiene el mismo comportamietno.
+        -   $x_{2,2}$= -900*0.2 = `r -900*0.2`
+        -   $x_{2,3}$= `r 0`
+
+
+```{r}
+tb07 = crea.tablaX(c(45,45,
+                     540,-180,
+                     900,-0),
+                   numalternativas = 3,
+                   numestados = 2)
+tb07
+```
+
+
+
+```{r}
+sol07 <- criterio.Todos(tb07, 
+                        alfa = 0.5 ,
+                        favorable = TRUE)
+sol07
+```
+
+Con esa información:
+
+
+## (a) ¿Qué decisión tomará María si es una persona totalmente conservadora? Pesimista (wald)
+
+La alternativa d1, invertir en el negocio de su amigo.
+
+## (b) ¿Qué decisión tomaráa su amigo si siempre piensa en el coste que tiene tomar la decisión equivocada? Savage
+
+Alternativa d3, optará por montar un chiringuito.
+
+
+```{r}
+dibuja.criterio.Hurwicz(tb07,favorable = TRUE)
+```
+
+# Ejercicio 8. Publicar una novela
+
+El autor de una novela se plantea la posibilidad de publicar el mismo o a través de una editorial. El editor le ofrece 20000 euros por la firma del contrato más un euro por ejemplar vendido. Si la novela tiene  éxito se estima que se venderán 200000 ejemplares. Si no tiene  éxito, sólo se venderán 10000. Si el autor publica su novela incurre en un coste inicial de 90000 euros por impresión y mercadotecnia, pero cada ejemplar vendido le produce dos euros.
+Según la información dada ¿aceptará  el autor de la novela la oferta del editor? Utilizar todos los criterios conocidos.
+
+
+Planteamiento:
+
+-   Un decisor
+
+-   Modelo de beneficios (favorable). 
+
+-   Alternativas:
+
+    -   d1= "Editorial"
+    -   d2= "Publicarlo el mismo"
+
+  
+
+-   Estados de la naturaleza:
+
+    -   e1 = "Tiene éxito"
+    -   e2 = "No lo tiene"
+
+-   Tabla de valoraciones (expreso en ud de 1000 euros) :
+
+    -   Estado e1:
+
+        -   $x_{1,1}$= 20 + 1*200 = `r 20 + 1*200`
+        -   $x_{1,2}$= -90 + 2*200 = `r -90 + 2*200`
+
+        
+    -   Estado e2:
+
+        -   $x_{2,1}$= 20 + 1*10 =  `r 20 + 1*10`
+        -   $x_{2,2}$= -90 + 10*2 = `r -90 + 2*10`
+
+
+
+```{r}
+tb08 = crea.tablaX(c(220,30,
+                     310,-70),
+                   numalternativas = 2,
+                   numestados = 2)
+
+rownames(tb08) = c("Editorial","Cuenta propia")
+colnames(tb08) = c("Éxito","Fracaso")
+tb08
+
+```
+
+
+
+```{r}
+sol08 <- criterio.Todos(tb08, 
+                        alfa = 0.5 ,
+                        favorable = TRUE)
+sol08
+# Mejora para la función
+```
+
+Por tanto, la mejor alternativa es que publique con la editorial.
