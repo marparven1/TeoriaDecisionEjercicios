@@ -589,3 +589,25 @@ sol08
 ```
 
 Por tanto, la mejor alternativa es que publique con la editorial.
+
+
+# Problema aleatorio
+```{r - reproducibilidad}
+semilla = 1 
+set.seed(semilla)
+tb09 = crea.tablaX( rnorm(20*30) , numalternativas = 20 , numestados =  30 
+  
+)
+
+tb09[1:8,1:6]
+sol08 <- criterio.Todos(tb09, 
+                        alfa = 0.5 ,
+                        favorable = TRUE)
+sol08
+```
+
+
+
+
+
+La alternaativa elegida es la d17
