@@ -1,0 +1,107 @@
+---
+title: "Teoría de la decisión"
+subtitle: "Relación 2"
+author: "Marta Venegas Pardo"
+output: 
+  prettydoc::html_pretty:
+    theme: leonids
+    highlight: github
+    toc: true
+    toc_depth: 4
+    number_section: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+source("teoriadecision_funciones_multicriterio.R")
+source("teoriadecision_funciones_multicriterio_diagram.R")
+source("teoriadecision_funciones_multicriterio_utiles.R")
+```
+
+
+
+# Ejercicio 1
+
+
+1. Dadas las siguientes matrices correspondientes a la relación binaria no borrosa de preferencia-indiferencia:
+
+
+Construya una función de valor o utilidad asociada a cada una de ellas.
+
+# Ejercicio 2
+Dadas las siguientes matrices correspondientes a la relación binaria borrosa de preferencia:
+
+
+
+Construya una función de valor o utilidad asociada a cada una de ellas.
+
+# Ejercicio 3
+Dada una matriz de decisióon recogida en la siguiente tabla:
+
+
+## Apartado a)
+Homogeneice las columnas de la tabla de decisión por el método Nadir
+
+## Apartado b)
+Homogeneice las columnas de la tabla de decisión por el método Promethee, considerando los siguientes valores $\underline\delta$ y $\overline\delta$ para cada uno de los criterios: C1 : (30, 120), C2 : (3, 12), C3 : (4, 10), C4 : (20, 60) y C5 : (100, 400), respectivamente.
+
+# Ejercicio 4
+Un inversor está considerando invertir en una opción entre dos alternativas posibles A y B. El criterio de mayor importancia relativa es el rendimiento de cada opción en Bolsa, y en menor medida el riesgo asociado con dicha inversión. Las matrices de comparación por pares de este problema han sido estimadas de la manera siguiente:
+
+- Matriz de criterios 
+
+- Matriz de alternativas/criterios
+
+
+Se pide:
+
+## Apartado a)
+Identificar el diagrama de jerarquías de este problema de decisión.
+
+## Apartado b)
+
+Calcular las prioridades de cada matriz de comparaciones por pares. 
+
+## Apartado c)
+
+Determinar la prioridad global de cada una de las 2 inversiones.
+
+# Ejercicio 5
+
+El vicepresidente ejecutivo de una empresa de distribución de bebidas necesita seleccionar un nuevo gerente de marketing.
+
+Hay dos candidatos potenciales cuyas iniciales son A y B. Se han identificado las siguientes matrices de comparación por pares:
+
+- Matriz de comparación entre criterios
+
+- Matriz de comparación entre alternativas según criterios
+
+Se pide:
+
+## Apartado a)
+Identificar el diagrama de jerarquías de este problema de decisión.
+
+## Apartado b)
+Calcular las prioridades de cada matriz de comparaciones por pares.
+
+## Apartado c) 
+Determinar la prioridad global de cada candidato.
+
+
+# Ejercicio 6
+
+Una empresa de diseño debe seleccionar la mejor oferta entre 3 alternativas de proveedores:
+
+A, B y C. 
+
+La Gerencia de la empresa maneja tres criterios (1) los costos, (2) la confiabilidad de los productos y (3) plazos de entrega.
+
+El centro decisor fue consultado sobre sus preferencias en relación con cada uno de los provee- dores. Se identificaron las siguientes matrices de comparación por parejas entre los proveedores según uno de los 3 criterios:
+
+# Ejercicio 7
+
+# Ejercicio 8
+
