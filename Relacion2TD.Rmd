@@ -15,7 +15,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r message=FALSE }
 source("teoriadecision_funciones_multicriterio.R")
 source("teoriadecision_funciones_multicriterio_diagram.R")
 source("teoriadecision_funciones_multicriterio_utiles.R")
@@ -24,29 +24,339 @@ source("teoriadecision_funciones_multicriterio_utiles.R")
 
 
 # Ejercicio 1
-
-
-1. Dadas las siguientes matrices correspondientes a la relación binaria no borrosa de preferencia-indiferencia:
-
+Dadas las siguientes matrices correspondientes a la relación binaria no borrosa de preferencia-indiferencia:
 
 Construya una función de valor o utilidad asociada a cada una de ellas.
+
+Nota: A este ejercicio podemos resolverlo por el método borroso, pero el ejericio dos no podemos por el criterio maximal
+
+
+## Apartado a)
+
+### Método maximal
+
+```{r}
+m01A = multicriterio.crea.matrizvaloraciones(
+  c(1,0,1,1,1,1,0,0,1), numalternativas = 3,
+  v.nombres.alternativas = NULL
+)
+m01A
+```
+
+Método de construcción de la función de utilidad "Maximal".
+
+
+
+```{r}
+sol01A = multicriterio.constfuncutilidad.maximales(m01A)
+sol01A
+```
+
+Ordenadas de mejor a peor:
+
+```{r}
+sort(sol01A,decreasing = TRUE)
+```
+
+
+### Método borroso
+
+Método de construcción de la función de utilidad "Borroso"
+
+```{r}
+sol01A.bor = multicriterio.constfuncutilidad.estructuraborrosa(m01A)
+sol01A.bor
+```
+
+Ordenadas de mejor a peor:
+
+```{r}
+sort(sol01A.bor,decreasing = TRUE)
+```
+
+Tambien dice que la menor es a2, luego a1 y la última a3.
+
+
+## Apartado b)
+
+```{r}
+m01B = multicriterio.crea.matrizvaloraciones(
+  c(1,0,1,1,1,1,1,0,1), numalternativas = 3,
+  v.nombres.alternativas = NULL
+)
+m01B
+```
+
+```{r}
+sol01B = multicriterio.constfuncutilidad.maximales(m01B)
+sol01B
+```
+
+Ordenadas de mejor a peor:
+
+```{r}
+sort(sol01B,decreasing = TRUE)
+```
+
+
+
+
+
+
+## Apartado c) Falta MB
+
+
+### Método maximal
+
+
+
+
+
+```{r}
+m01C = multicriterio.crea.matrizvaloraciones(
+  c(1,1,1,1,1,1,1,1,1), numalternativas = 3,
+  v.nombres.alternativas = NULL
+)
+m01C
+```
+
+```{r}
+sol01C = multicriterio.constfuncutilidad.maximales(m01C)
+sol01C
+```
+
+Ordenadas de mejor a peor:
+
+```{r}
+sort(sol01C,decreasing = TRUE)
+```
+
+
+
+
+### Método borroso
+
+
+## Apartado d)
+
+```{r}
+m01D = multicriterio.crea.matrizvaloraciones(
+  c(1,1,1,0,1,
+    0,1,0,0,1,
+    1,0,1,0,1,
+    1,1,1,1,0,
+    0,0,0,0,1), numalternativas = 5,
+  v.nombres.alternativas = NULL
+)
+m01D
+```
+### Método maximal
+
+
+Método de construcción de la función de utilidad "Maximal".
+
+
+```{r}
+sol01D = multicriterio.constfuncutilidad.maximales(m01D)
+sol01D
+```
+
+Ordenadas de mejor a peor:
+
+```{r}
+sort(sol01D,decreasing = TRUE)
+```
+
+Las alternativas a1 y a3 son iguales, indiferentes.
+
+\(a_4 > a_1 = a_3 > a_2 > a_5\)
+
+
+### Método borroso 
+
+Método de construcción de la función de utilidad "Borroso"
+
+```{r}
+sol01D.bor = multicriterio.constfuncutilidad.estructuraborrosa(m01D)
+sol01D.bor
+```
+
+Ordenadas de mejor a peor:
+
+```{r}
+sort(sol01D.bor,decreasing = TRUE)
+```
+En el método maximal había empate entre a1 y a3, sin embargo, este método coloca primero a a1. 
+
+
+
+\(a_4 > a_1 > a_3 > a_2 > a_5\)
+
+
+
+
+
+
+
 
 # Ejercicio 2
 Dadas las siguientes matrices correspondientes a la relación binaria borrosa de preferencia:
 
-
-
 Construya una función de valor o utilidad asociada a cada una de ellas.
+
+## Apartado a)
+
+```{r}
+m02A = multicriterio.crea.matrizvaloraciones(
+  c(0,0.4,0.7,
+    0.2,0,0.5,
+    0.3,0.6,0), 
+  numalternativas = 3,
+  v.nombres.alternativas = NULL
+)
+m02A
+```
+
+No se puede aplicar el método maximal
+
+### Método borroso
+
+Método de construcción de la función de utilidad "Borroso"
+
+```{r}
+sol02A.bor = multicriterio.constfuncutilidad.estructuraborrosa(m02A)
+sol02A.bor
+```
+
+
+
+Ordenadas de mejor a peor:
+
+```{r}
+sort(sol02A.bor,decreasing = TRUE)
+```
+
+En este caso a1 sería la mejor, y existe un empate entre a2 y a3.
+
+
+
+## Apartado B
+
+```{r}
+m02B = multicriterio.crea.matrizvaloraciones(
+  c(0,0.2,0.4,
+    0.9,0,0.8,
+    0.1,0.3,0), 
+  numalternativas = 3,
+  v.nombres.alternativas = NULL
+)
+m02B
+```
+
+### Método borroso
+
+Método de construcción de la función de utilidad "Borroso"
+
+```{r}
+sol02B.bor = multicriterio.constfuncutilidad.estructuraborrosa(m02B)
+sol02B.bor
+```
+
+
+
+Ordenadas de mejor a peor:
+
+```{r}
+sort(sol02B.bor,decreasing = TRUE)
+```
+
+
+
+
+
+
 
 # Ejercicio 3
 Dada una matriz de decisióon recogida en la siguiente tabla:
 
 
 ## Apartado a)
+
+
+
+
+```{r}
+m03= multicriterio.crea.matrizdecision( 
+  c(100,15,7,40,50,
+    200,25,7,60,200,
+    100,20,4,25,25,
+    200,30,20,70,350,
+    250,25,15,100,500), 
+  numalternativas = 5,
+  numcriterios = 5,
+)
+m03
+```
+
+### Con criterio maximinzar
+
+
+
 Homogeneice las columnas de la tabla de decisión por el método Nadir
 
+
+```{r}
+sol03A=multicriterio.homogeneizacion.nadir(m03)
+sol03A
+```
+
+- Matriz en escala (0,1). 
+
+- 100 es el mínimo, por eso lleva valor 0 y 250 es el mayor, lleva un 1. Luego el resto es una regla de 3.
+
+- Así para cada criterio.
+
+
+
+
+Nota: Si me dicen previamente que es minimizar, le cambio el signo a todo y me daría los 1 donde están los valores más pequeños:
+
+### Apartado a con Criterio de minimizar
+
+```{r}
+m0302= multicriterio.crea.matrizdecision( 
+  c(- 100,15,7,40,50,
+    - 200,25,7,60,200,
+    - 100,20,4,25,25,
+    - 200,30,20,70,350,
+    - 250,25,15,100,500), 
+  numalternativas = 5,
+  numcriterios = 5,
+)
+m0302
+```
+
+
+
+```{r}
+sol03A02=multicriterio.homogeneizacion.nadir(m0302)
+sol03A02
+```
+
+
+
+
 ## Apartado b)
+
 Homogeneice las columnas de la tabla de decisión por el método Promethee, considerando los siguientes valores $\underline\delta$ y $\overline\delta$ para cada uno de los criterios: C1 : (30, 120), C2 : (3, 12), C3 : (4, 10), C4 : (20, 60) y C5 : (100, 400), respectivamente.
+
+```{r}
+sol03B =multicriterio.homogeneizacion.promethee(m03,
+                                        v.delta.min = c(30,3,4,20,100),
+                                        v.delta.max = c(120,12,10,60,400))
+sol03B
+```
+
 
 # Ejercicio 4
 Un inversor está considerando invertir en una opción entre dos alternativas posibles A y B. El criterio de mayor importancia relativa es el rendimiento de cada opción en Bolsa, y en menor medida el riesgo asociado con dicha inversión. Las matrices de comparación por pares de este problema han sido estimadas de la manera siguiente:
@@ -104,4 +414,42 @@ El centro decisor fue consultado sobre sus preferencias en relación con cada un
 # Ejercicio 7
 
 # Ejercicio 8
+
+
+
+
+# Nuevo paquete
+
+
+```{r}
+devtools::install_github("gluc/ahp", build_vignettes = TRUE)
+```
+```{r}
+vignette("car-example", package = "ahp")
+vignette("multiple-decisionmakers", package = "ahp")
+
+# run analysis
+library(ahp)
+ahpFile <- system.file("extdata", "car.ahp", package="ahp")
+carAhp <- Load(ahpFile)
+Calculate(carAhp)
+Visualize(carAhp)
+Analyze(carAhp)
+AnalyzeTable(carAhp)
+
+# looking at the vacation example, a multi-decision-maker model
+ahpFile <- system.file("extdata", "vacation.ahp", package="ahp")
+vacationAhp <- Load(ahpFile)
+Calculate(vacationAhp)
+Analyze(vacationAhp, decisionMaker = "Dad")
+AnalyzeTable(vacationAhp, decisionMaker = "Mom")
+AnalyzeTable(vacationAhp)
+
+```
+
+```{r}
+RunGUI()
+```
+
+
 
