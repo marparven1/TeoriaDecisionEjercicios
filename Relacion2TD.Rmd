@@ -12,8 +12,10 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 ```
+
+
 
 ```{r  message=FALSE }
 source("teoriadecision_funciones_multicriterio.R")
@@ -475,6 +477,8 @@ dt04 = Load("ej04.ahp")
 
 
 ```{r message=FALSE}
+#suppressPackageStartupMessages(Visualize(dt04))
+#suppressMessages(Visualize(dt04))
 Visualize(dt04)
 ```
 
@@ -488,7 +492,9 @@ ahp::AnalyzeTable(dt04, sort="orig",variable="priority")
 ```{r}
 ahp::AnalyzeTable(dt04, sort="orig")
 ```
+El rendimiento es casi el doble de importante que el riesgo.
 
+Hacer más comentarios
 
 # Ejercicio 5
 
@@ -533,33 +539,32 @@ El centro decisor fue consultado sobre sus preferencias en relación con cada un
 
 
 ```{r}
-devtools::install_github("gluc/ahp", build_vignettes = TRUE)
+#devtools::install_github("gluc/ahp", build_vignettes = TRUE)
 ```
 ```{r}
-vignette("car-example", package = "ahp")
-vignette("multiple-decisionmakers", package = "ahp")
-
-# run analysis
-library(ahp)
-ahpFile <- system.file("extdata", "car.ahp", package="ahp")
-carAhp <- Load(ahpFile)
-Calculate(carAhp)
-Visualize(carAhp)
-Analyze(carAhp)
-AnalyzeTable(carAhp)
-
-# looking at the vacation example, a multi-decision-maker model
-ahpFile <- system.file("extdata", "vacation.ahp", package="ahp")
-vacationAhp <- Load(ahpFile)
-Calculate(vacationAhp)
-Analyze(vacationAhp, decisionMaker = "Dad")
-AnalyzeTable(vacationAhp, decisionMaker = "Mom")
-AnalyzeTable(vacationAhp)
-
+#vignette("car-example", package = "ahp")
+#vignette("multiple-decisionmakers", package = "ahp")
+#
+## run analysis
+#library(ahp)
+#ahpFile <- system.file("extdata", "car.ahp", package="ahp")
+#carAhp <- Load(ahpFile)
+#Calculate(carAhp)
+#Visualize(carAhp)
+#Analyze(carAhp)
+#AnalyzeTable(carAhp)
+#
+## looking at the vacation example, a multi-decision-maker model
+#ahpFile <- system.file("extdata", "vacation.ahp", package="ahp")
+#vacationAhp <- Load(ahpFile)
+#Calculate(vacationAhp)
+#Analyze(vacationAhp, decisionMaker = "Dad")
+#AnalyzeTable(vacationAhp, decisionMaker = "Mom")
+#AnalyzeTable(vacationAhp)
 ```
 
 ```{r}
-RunGUI()
+#RunGUI()
 ```
 
 
