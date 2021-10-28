@@ -467,10 +467,27 @@ Ejercicios 5y6 son iguales pero con sus datos.
 
 ```{r}
 #devtools::install_github("gluc/ahp", build_vignettes = TRUE)
-ahp::RunGUI()
+# ahp::RunGUI()
+# 
+library(ahp)
+dt04 = Load("ej04.ahp")
 ```
 
 
+```{r message=FALSE}
+Visualize(dt04)
+```
+
+
+
+```{r}
+ahp::Calculate(dt04)
+ahp::AnalyzeTable(dt04, sort="orig",variable="priority")
+```
+
+```{r}
+ahp::AnalyzeTable(dt04, sort="orig")
+```
 
 
 # Ejercicio 5
