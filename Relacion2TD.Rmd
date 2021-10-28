@@ -15,7 +15,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r message=FALSE }
+```{r  message=FALSE }
 source("teoriadecision_funciones_multicriterio.R")
 source("teoriadecision_funciones_multicriterio_diagram.R")
 source("teoriadecision_funciones_multicriterio_utiles.R")
@@ -104,6 +104,7 @@ sort(sol01B,decreasing = TRUE)
 
 
 ## Apartado c) Falta MB
+
 
 
 ### Método maximal
@@ -366,18 +367,111 @@ Un inversor está considerando invertir en una opción entre dos alternativas po
 - Matriz de alternativas/criterios
 
 
+
 Se pide:
 
-## Apartado a)
+Apartado a)
 Identificar el diagrama de jerarquías de este problema de decisión.
 
-## Apartado b)
+Apartado b)
 
 Calcular las prioridades de cada matriz de comparaciones por pares. 
 
-## Apartado c)
+Apartado c)
 
 Determinar la prioridad global de cada una de las 2 inversiones.
+
+
+
+Lo resuelvo siguiendo los pasos del fichero esquemaAHPcalculos
+
+## Funciones en script de R
+
+Introducir los datos 
+
+```{r}
+nb.criterios=c("Rendimiento","Riesgo")
+tb0401 = multicriterio.crea.matrizvaloraciones_mej(c(2),
+                                                  numalternativas = 2,
+                                                  v.nombres.alternativas = nb.criterios) # la diagonal superior
+
+tb0401
+```
+
+
+```{r}
+# la del rendimiento
+nb.alternativas=c("A","B")
+tb0402a = multicriterio.crea.matrizvaloraciones_mej(c(3),
+                                                  numalternativas = 2,
+                                                  v.nombres.alternativas = nb.alternativas) # la diagonal superior
+
+tb0402a
+```
+
+```{r}
+# la del riesgo
+nb.alternativas=c("A","B")
+tb0402b = multicriterio.crea.matrizvaloraciones_mej(c(1/2),
+                                                  numalternativas = 2,
+                                                  v.nombres.alternativas = nb.alternativas) # la diagonal superior
+
+tb0402b
+```
+
+Obtenemos los pesos locales:
+
+```{r}
+(pl0401 = multicriterio.metodoAHP.variante1.autovectormayorautovalor(tb0401)) #pesoslocales0401
+```
+
+
+```{r}
+(pl0402a = multicriterio.metodoAHP.variante1.autovectormayorautovalor(tb0402a)) #pesoslocales0402a
+
+```
+
+
+```{r}
+(pl0402b = multicriterio.metodoAHP.variante1.autovectormayorautovalor(tb0402b)) #pesoslocales0402b
+```
+
+Nos queda obtener finalmente los pesos globales:
+
+```{r}
+(sol04=multicriterio.metodoAHP.pesosglobales_entabla(pl0401$valoraciones.ahp,
+                                              rbind(pl0402a$valoraciones.ahp,
+                                                    pl0402b$valoraciones.ahp)))
+```
+
+El 61% y el 39%. Esta claro que la alternativa elegida es la A, es casi el doble mejor. En cuanto al rendimiento es mejor la A 3 veces mejor que la B pero respecto al riesgo es mejor la B que la A. El rendimiento tiene el doble de importancia que el riesgo, por eso gana la A.
+
+El diagrama con la estructura jerárquica:
+
+```{r}
+xmatn01=tb0401 # meto la tabla tb0401
+xmatn02=array(NA,dim=c(2,2,2))
+xmatn02[,,1]=tb0402a
+xmatn02[,,2]=tb0402b
+dimnames(xmatn02)[[1]]=nb.alternativas
+dimnames(xmatn02)[[2]]=nb.alternativas
+dimnames(xmatn02)[[3]]=nb.criterios
+multicriterio.metodoahp.diagrama(xmatn01,xmatn02) # matriz del nivel 1 y 2
+```
+Ejercicios 5y6 son iguales pero con sus datos.
+
+
+## Con paquete ahp
+
+
+
+```{r}
+#devtools::install_github("gluc/ahp", build_vignettes = TRUE)
+ahp::RunGUI()
+```
+
+
+
 
 # Ejercicio 5
 
