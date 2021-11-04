@@ -387,6 +387,44 @@ Determinar la prioridad global de cada una de las 2 inversiones.
 
 Lo resuelvo siguiendo los pasos del fichero esquemaAHPcalculos
 
+
+# Nuevo paquete
+
+
+```{r}
+#devtools::install_github("gluc/ahp", build_vignettes = TRUE)
+```
+```{r}
+#vignette("car-example", package = "ahp")
+#vignette("multiple-decisionmakers", package = "ahp")
+#
+## run analysis
+#library(ahp)
+#ahpFile <- system.file("extdata", "car.ahp", package="ahp")
+#carAhp <- Load(ahpFile)
+#Calculate(carAhp)
+#Visualize(carAhp)
+#Analyze(carAhp)
+#AnalyzeTable(carAhp)
+#
+## looking at the vacation example, a multi-decision-maker model
+#ahpFile <- system.file("extdata", "vacation.ahp", package="ahp")
+#vacationAhp <- Load(ahpFile)
+#Calculate(vacationAhp)
+#Analyze(vacationAhp, decisionMaker = "Dad")
+#AnalyzeTable(vacationAhp, decisionMaker = "Mom")
+#AnalyzeTable(vacationAhp)
+```
+
+```{r}
+#RunGUI()
+```
+
+
+
+
+
+
 ## Funciones en script de R
 
 Introducir los datos 
@@ -528,44 +566,402 @@ La Gerencia de la empresa maneja tres criterios (1) los costos, (2) la confiabil
 
 El centro decisor fue consultado sobre sus preferencias en relación con cada uno de los provee- dores. Se identificaron las siguientes matrices de comparación por parejas entre los proveedores según uno de los 3 criterios:
 
+
+
 # Ejercicio 7
+
+```{r}
+p7 = multicriterio.crea.matrizdecision(
+  vector_matporfilas = c(
+  100 ,15 ,7 ,40   ,-50,
+  200 ,25 ,7 ,60   ,-200,
+  100 ,20 ,4 ,25   ,-25,
+  200 ,30 ,20, 70  ,-350,
+  250 ,25 ,15, 100 ,-500),
+  numalternativas = 5,
+  numcriterios = 5
+  
+ 
+)
+(w=c(0.25,0.25,0.2,0.2,0.2))
+(vd = c(60,Inf,4,Inf,Inf))
+```
+
+```{r}
+sal7i1=multicriterio.metodoELECTRE_I(p7,pesos.criterios = w,
+                                   nivel.concordancia.minimo.alpha = 0.7,
+                                   no.se.compensan = vd,
+                                   que.alternativas = TRUE
+                                   )
+#sal7i1
+```
+
+Representación del grafo
+
+```{r}
+qgraph::qgraph(sal7i1$relacion.dominante)
+```
+En la siguiente iteración:
+
+```{r}
+sal7i2=multicriterio.metodoELECTRE_I(p7,pesos.criterios = w,
+                                   nivel.concordancia.minimo.alpha = 0.7,
+                                   no.se.compensan = vd,
+                                   que.alternativas = c(4,5)
+                                   )
+sal7i2$relacion.dominante
+sal7i2$nucleo_aprox
+```
+
+
+```{r}
+qgraph::qgraph(sal7i2$relacion.dominante)
+```
+
+En la siguiente iteración:
+
+```{r}
+sal7i3=multicriterio.metodoELECTRE_I(p7,pesos.criterios = w,
+                                   nivel.concordancia.minimo.alpha = 0.55, #0.65, 0.6
+                                    no.se.compensan = vd,
+                                   que.alternativas = c(4,5)
+                                   )
+sal7i3$relacion.dominante
+sal7i3$nucleo_aprox # con 0.55 ya se queda solo a4
+```
+
+```{r}
+qgraph::qgraph(sal7i3$relacion.dominante)
+```
+
+Si con 0.5 no somos capaces de establecer una superioridad, decimos que ambas son iguales y ninguna supera a la otra.
+
+Conclusión, mejor alternativa: a4
+
+## La representación de las tables de test con KableExtra
+
+```{r}
+library(dplyr)
+library(kableExtra)
+library(stringr)
+sal7ke = func_ELECTRE_Completo(sal7i1)
+```
+
+```{r}
+sal7ke$MIndices
+sal7ke$TConcordancia
+```
+
+```{r}
+qgraph::qgraph(sal7ke$Grafo)
+```
+
+El núcleo
+
+```{r}
+sal7ke$Nucleo
+```
+
 
 # Ejercicio 8
 
-
-
-
-# Nuevo paquete
-
+## Promethee I
 
 ```{r}
-#devtools::install_github("gluc/ahp", build_vignettes = TRUE)
-```
-```{r}
-#vignette("car-example", package = "ahp")
-#vignette("multiple-decisionmakers", package = "ahp")
-#
-## run analysis
-#library(ahp)
-#ahpFile <- system.file("extdata", "car.ahp", package="ahp")
-#carAhp <- Load(ahpFile)
-#Calculate(carAhp)
-#Visualize(carAhp)
-#Analyze(carAhp)
-#AnalyzeTable(carAhp)
-#
-## looking at the vacation example, a multi-decision-maker model
-#ahpFile <- system.file("extdata", "vacation.ahp", package="ahp")
-#vacationAhp <- Load(ahpFile)
-#Calculate(vacationAhp)
-#Analyze(vacationAhp, decisionMaker = "Dad")
-#AnalyzeTable(vacationAhp, decisionMaker = "Mom")
-#AnalyzeTable(vacationAhp)
-```
-
-```{r}
-#RunGUI()
+tabdec.X = multicriterio.crea.matrizdecision(c(-80,90.-6.-5.4,-8.5,
+                                               -65,58 ,-2,-9.7,-1.1,
+                                               -83,60,-4,-7.2,-4,7,
+                                               -40.80-10,-7.5, -7,10
+                                               -52,72,-6,-2.0, -3,8,
+                                               -94,96,-7,-3.6,-5,6),
+                                             numalternativas=6,
+                                             numcriterios=6,
+                                             v.nombresalt=c("A1","A2","A3","A4","A5","A6"),
+                                             v.nombrescri = c("f1","f2","f3","f4","f5","f6")
+                                                    
+)
+tabdec.X
 ```
 
 
+```{r}
+sal8= multicriterio.metodo.promethee_i(tabdec.X,
+                                      pesos.criterios = rep(1/6,6),
+                 tab.fpref=matrix(c(2,10,0,0, # nro ,qi,pi,si
+                                    3,0,30,0,
+                                    5,0.5,5,0,
+                                    4,1,6,0,
+                                    1,0,0,0,
+                                    6,0,0,5),ncol=4,byrow=TRUE))
+```
 
+
+Representar en un grafo:
+
+```{r}
+qgraph::qgraph(sal8$tablarelacionsupera)
+```
+
+
+A5 domina a todos, esa es la mejor
+
+
+## Promethee II
+
+
+
+```{r}
+sal8b= multicriterio.metodo.promethee_ii(tabdec.X,
+                                      pesos.criterios = rep(1/6,6),
+                 tab.fpref=matrix(c(2,10,0,0, # nro ,qi,pi,si
+                                    3,0,30,0,
+                                    5,0.5,5,0,
+                                    4,1,6,0,
+                                    1,0,0,0,
+                                    6,0,0,5),ncol=4,byrow=TRUE))
+```
+
+
+Representar en un grafo:
+
+```{r}
+qgraph::qgraph(sal8b$tablarelacionsupera)
+```
+
+```{r}
+order(sal8b$vflujos.netos,decreasing = T)
+```
+Me dice que la 5 es la mejor seguida de la 2, la 4 la 6 la 3 y la 1.
+
+
+
+```{r}
+pesos.criterios = c(1/6,1/6,1/6,1/6,1/6.1/6) ;
+#                   num. función, qi, pi, si
+tab.fpref = matrix(c (2,10,1,0,
+                      3,0,30,0,
+                      5,0.5,5,0, 
+                      4,1,6,0,
+                      1,0,1,0,
+                      6,0,1,5) ,ncol=4, byrow=T);
+tab.fpref
+```
+```{r}
+fpref.criterio_usual_di = function(di) {
+              #di = vaj-vah;
+    if (di <= 0) {
+      res= 0;
+      } else {
+        res= 1;
+      }
+       return(res) ;
+  }
+```
+
+
+Representación Gráfica de las funciones de preferencias
+
+
+```{r}
+x= seq(-10,10 ,length.out=100)
+y= sapply (x,fpref.criterio_usual_di)
+plot (x,y, type="l", col="blue" ,main= "Criterio Usua: F1 ")
+```
+
+```{r}
+fpref.cuasi_criterio_di = function(di,qi) {
+              #di = vaj-vah;
+    if (di <= qi) {
+      res= 0;
+      } else {
+        res= 1;
+      }
+       return(res) ;
+  }
+```
+
+
+
+
+
+```{r}
+x= seq(-10,10 ,length.out=100)
+y= sapply (x,function(xx) fpref.cuasi_criterio_di(xx,qi=2))
+plot (x,y, type="l", col="blue" ,main= "Cuasi Criterio. Lineal: F2 (con qi=2)")
+```
+
+
+```{r}
+fpref.criterio_preflineal_di = function(di,pi) {
+              #di = vaj-vah;
+    if (di <= 0) {
+      res= 0;
+      } else if (di>pi) {
+        res= 1;
+      } else {
+        res=di/pi;
+      }
+       return(res) ;
+  }
+```
+
+
+
+
+
+```{r}
+x= seq(-10,10 ,length.out=100)
+y= sapply (x,function(xx) fpref.criterio_preflineal_di(xx,pi=2))
+plot (x,y, type="l", col="blue" ,main= "Criterio
+      Pref. Lineal: F3 (con pi=2)")
+```
+
+
+
+
+```{r}
+fpref.criterio_nivel_di = function(di,qi,pi) {
+              #di = vaj-vah;
+    if (di <= qi) {
+      res= 0;
+      } else if (di>pi) {
+        res= 1;
+      } else {
+        res=0.5;
+      }
+       return(res) ;
+  }
+```
+
+
+
+
+
+```{r}
+x= seq(-10,10 ,length.out=100)
+y= sapply (x,function(xx) fpref.criterio_nivel_di(xx,pi=4,qi=2))
+plot (x,y, type="l", col="blue" ,main= "Criterio
+      Nivel: F4 (con qi=2 y pi=4)")
+```
+
+
+```{r}
+fpref.criterio_preflineal_indif_di = function(di,qi,pi) {
+              #di = vaj-vah;
+    if (di <= qi) {
+      res= 0;
+      } else if (di>pi) {
+        res= 1;
+      } else {
+        res=(di-qi)/(pi-qi);
+      }
+       return(res) ;
+  }
+```
+
+
+
+
+
+```{r}
+x= seq(-10,10 ,length.out=100)
+y= sapply (x,function(xx) fpref.criterio_preflineal_indif_di(xx,pi=4,qi=2))
+plot (x,y, type="l", col="blue" ,main= "Criterio Pref. Lineal Indiferencia: F5 (con qi=2 y pi=4)")
+```
+
+
+# Solución del problema 7 con Promethee
+
+```{r}
+sol7promethee2=multicriterio.metodo.promethee_ii(p7,
+                                  pesos.criterios =
+ c(0.25,0.25,0.2,0.2,0.2)/sum(c(0.25,0.25,0.2,0.2,0.2)), # para que sumen 1
+                                  tab.fpref=matrix(c(1,0,0,0,
+                                                   1,0,0,0,
+                                                   1,0,0,0,
+                                                   1,0,0,0,
+                                                   1,0,0,0),ncol=4,byrow = TRUE )        )
+sol7promethee2
+```
+
+```{r}
+order(sol7promethee2$vflujos.netos,decreasing = T)
+```
+
+Por el método electre dijimos que la 4 era mejor que la 5 pero no conseguimos ordenar el resto. Este método si.
+
+
+Método promethee:
+
+- Matriz de valoraciones (si es minimizar cambio signo)
+- Pesos, que deben sumar 1
+- Funciones de pref de cada uno de los criterios, que espera que se lo pasemos como una matriz byrow=TRUE
+
+
+# Problema 8 por método electre
+
+Método electre:
+
+- D
+- Alpha
+- Pesos de comparación, podríamos ponerlos todos infinitos
+
+
+
+
+```{r}
+sal8electre=multicriterio.metodoELECTRE_I(tabdec.X,
+                                          pesos.criterios = rep(1/6,6),
+                                   nivel.concordancia.minimo.alpha = 0.7,
+                                   no.se.compensan = rep(Inf,6),
+                                   que.alternativas = TRUE
+                                   )
+sal8electre$nucleo_aprox
+```
+
+Representación del grafo
+
+```{r}
+qgraph::qgraph(sal8electre$relacion.dominante)
+```
+En la siguiente iteración:
+
+```{r}
+sal8electrei2=multicriterio.metodoELECTRE_I(tabdec.X, pesos.criterios = rep(1/6,6),
+                                   nivel.concordancia.minimo.alpha = 0.7,
+                                   no.se.compensan = rep(Inf,6),
+                                   que.alternativas = c(2,4,5))
+                                   
+sal8electrei2$nucleo_aprox
+```
+
+
+```{r}
+qgraph::qgraph(sal8electrei2$relacion.dominante)
+```
+
+En la siguiente iteración:
+
+```{r}
+sal8electrei3=multicriterio.metodoELECTRE_I(tabdec.X, pesos.criterios = rep(1/6,6),
+                                   nivel.concordancia.minimo.alpha = 0.55,
+                                   no.se.compensan = rep(Inf,6),
+                                   que.alternativas = c(2,4,5))
+                                   
+sal8electrei3$nucleo_aprox
+```
+
+
+
+```{r}
+sal8electrei4=multicriterio.metodoELECTRE_I(tabdec.X, pesos.criterios = rep(1/6,6),
+                                   nivel.concordancia.minimo.alpha = 0.505,
+                                   no.se.compensan = rep(Inf,6),
+                                   que.alternativas = c(4,5))
+                                   
+sal8electrei4$nucleo_aprox
+```
+
+
+
+Las dos mejores son la 4 y la 5, no consigo separar entre las dos
