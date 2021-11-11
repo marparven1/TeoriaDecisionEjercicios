@@ -1,0 +1,27 @@
+Version: 2.0
+Alternatives: &alternatives
+  A:
+  B:
+Goal:
+  name: Resolver problema número 5
+  preferences:
+    pairwise:
+      - [Liderazgo, HabilidadPersonal,1/3]
+      - [Liderazgo, HabilidaeGestion,1/4]
+      - [HabilidadPersonal , HabilidadGestion,2]
+  children:
+    Liderazgo:
+      preferences:
+        pairwise:
+          - [A,B,4]
+      children: *alternatives 
+    HabilidadPersonal:
+      preferences:
+        pairwise:
+          - [A,B,3]
+      children: *alternatives
+    HabilidadGestion:
+      preferences:
+        pairwise:
+          - [A,B,2]
+      children: *alternatives

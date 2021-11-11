@@ -1,0 +1,34 @@
+Version: 2.0
+Alternatives: &alternatives
+  ProveedorA:
+  ProveedorB:
+  ProveedorC:
+Goal:
+  name: Solución ejercicio 6. Empresa de diseño
+  preferences:
+    pairwise:
+      - [Costos, Fiabilidad,7]
+      - [Costos, PlazosEntrega,9]
+      - [Fiabilidad , PlazosEntrega,3]
+  children:
+    Costos:
+      preferences:
+        pairwise:
+          - [ProveedorA,ProveedorB,1/3]
+          - [ProveedorA,ProveedorC,6]
+          - [ProveedorB,ProveedorC,8]
+      children: *alternatives 
+    Fiabilidad:
+      preferences:
+        pairwise:
+          - [ProveedorA,ProveedorB,6]
+          - [ProveedorA,ProveedorC,2]
+          - [ProveedorB,ProveedorC,1/3]
+      children: *alternatives
+    PlazosEntrega:
+      preferences:
+        pairwise:
+          - [ProveedorA,ProveedorB,8]
+          - [ProveedorA,ProveedorC,1]
+          - [ProveedorB,ProveedorC,1/8]
+      children: *alternatives
