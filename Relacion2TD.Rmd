@@ -235,6 +235,7 @@ Ordenadas de mejor a peor:
 sort(sol02B.bor,decreasing = TRUE)
 ```
 
+
 # Ejercicio 3
 
 Dada una matriz de decisión
@@ -412,6 +413,8 @@ tb0402b
 ```
 ### Paso 2: Obtenemos los pesos locales
 
+Corresponden a $\$\text{valoraciones.AHP}$
+
 ```{r}
 (pl0401 = multicriterio.metodoAHP.variante1.autovectormayorautovalor(tb0401)) #pesoslocales0401
 ```
@@ -424,6 +427,9 @@ tb0402b
 ```{r}
 (pl0402b = multicriterio.metodoAHP.variante1.autovectormayorautovalor(tb0402b)) #pesoslocales0402b
 ```
+
+
+
 ### Paso 3: Cálculo de pesos globales
 Nos queda obtener finalmente los pesos globales:
 
@@ -433,15 +439,31 @@ Nos queda obtener finalmente los pesos globales:
                                                     pl0402b$valoraciones.ahp)))
 ```
 
-Prioridad global:
+Salida:
 
-- El 61% para la alternativa A y el 39% para la alternativa B. Esta claro que la alternativa elegida es la A, es casi el doble mejor.
+- Columna 1: Pesos locales del primer criterio (Rendimiento) para cada alternativa
+- Columna 2: Pesos locales del segundo criterio (Riesgo) para cada alternativa
+- Columna 3: Pesos globales 
+- Columna 4: Pesos de cada criterio
+
+
+
+
+Apartado b)
 
 Prioridades de cada matriz de comparaciones por pares:
 
 - En cuanto al rendimiento es 3 veces mejor la A que la B pero respecto al riesgo es mejor la B que la A. 
 
-- El rendimiento tiene el doble de importancia que el riesgo, por eso gana la A.
+- El rendimiento tiene el doble de importancia que el riesgo, por eso gana la A, aunque hayamos obtenido que la alternativa B tiene el doble de peso en el criterio Riesgo.
+
+
+
+apartado c)
+Prioridad global:
+
+- El 61% para la alternativa A y el 39% para la alternativa B. Esta claro que la alternativa elegida es la A, es casi el doble mejor.
+
 
 
 ### Paso 4: Diagrama de jerarquía
@@ -450,7 +472,7 @@ El diagrama con la estructura jerárquica:
 
 ```{r}
 xmatn01=tb0401 # meto la tabla tb0401
-xmatn02=array(NA,dim=c(2,2,2))
+xmatn02=array(NA,dim=c(2,2,2)) # 2 alternativas y dos criterios
 xmatn02[,,1]=tb0402a
 xmatn02[,,2]=tb0402b
 dimnames(xmatn02)[[1]]=nb.alternativas
@@ -459,7 +481,7 @@ dimnames(xmatn02)[[3]]=nb.criterios
 multicriterio.metodoahp.diagrama(xmatn01,xmatn02) # matriz del nivel 1 y 2
 ```
 
-Ejercicios 5y6 son iguales pero con sus datos.
+
 
 ## Solución Con paquete ahp
 
@@ -490,10 +512,12 @@ ahp::AnalyzeTable(dt04, sort="orig")
 ```
 
 - El rendimiento (33.33%) es casi el doble de importante que el riesgo (66.7%)
+
 - El 66.7% de ese 33% es ese 22.2% de la alternativa B con respecto al riesgo.
 - El 33% de ese 33%, que es el peso de la alternativa A con respecto al riesgo es ese (11%)
-- El 16.7% ese sale del 25% del 66.7% del peso global del rendimiento.
 
+- El 16.7% ese sale del 25% del 66.7% del peso global del rendimiento.
+- Por último, ese 50% se obtiene de que es el 75% del peso global del rendimiento (66.7%)
 
 
 
@@ -626,15 +650,39 @@ Nos queda obtener finalmente los pesos globales:
 
 ```
 
-Prioridad global:
 
-- El 72.63%% para la alternativa A y el 27.36% para la alternativa B. Esta claro que la alternativa elegida es la A, la prioridad es más del doble. 
 
-Vemos que en todos los criterios gana la alternativa A. Las prioridades de cada matriz de comparaciones por pares:
 
-- En liderazgo la cuadruplica, es decir, en la alternativa A, el liderazgo es 4 veces mejor que en la B
+
+
+Apartado b)
+Prioridades de cada matriz de comparaciones por pares:
+
+Vemos que en todos los criterios gana la alternativa A. El peso de la alternativa A es mejor que el de la B en todos los criterios.
+
+Las prioridades de cada matriz de comparaciones por pares:
+
+- En liderazgo el peso de la alternativa A cuadruplica al de la alternativa B, es decir, el liderazgo es 4 veces mejor en la alternativa A que en la B
 - En habilidad personal, la alternativa A es tres veces mejor que la B
 - En cuanto a habilidad de gestión, la primera alternativa es 2 veces mejor que la B
+
+
+
+
+apartado c) Prioridad global:
+- Solución: La alternativa elegida es la A
+- El peso de la alternativa A es del 49.2% y de 17.8% para la alternativa B. Esta claro que la alternativa elegida es la A, la prioridad es más del doble. 
+- El peso global del criterio HABILIDAD PERSONAL (51.71%) es bastante superior a los pesos del resto de criterios (12%) del criterio liderazgo y (35.8%) de habilidad de gestión. Por tanto, el criterio HABILIDAD PERSONAL será determinante de cara a tomar una decisión
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -644,7 +692,7 @@ El diagrama con la estructura jerárquica:
 
 ```{r}
 xmatn01=tb0501 # meto la tabla tb0501
-xmatn02=array(NA,dim=c(2,2,3))
+xmatn02=array(NA,dim=c(2,2,3)) # dos alternativas y 3 criterios
 xmatn02[,,1]=tb0502a
 xmatn02[,,2]=tb0502b
 xmatn02[,,3]=tb0502c
@@ -654,6 +702,9 @@ dimnames(xmatn02)[[2]]=nb.alternativas
 dimnames(xmatn02)[[3]]=nb.criterios
 multicriterio.metodoahp.diagrama(xmatn01,xmatn02) # matriz del nivel 1 y 2
 ```
+
+
+
 
 
 
@@ -718,6 +769,8 @@ El centro decisor fue consultado sobre sus preferencias en relación con cada un
 
 
 
+
+
 -   Matriz comparación entre Alternativas según Criterios
 
 | Costo | Proveedor A | Proveedor B   | Proveedor C |
@@ -737,6 +790,147 @@ El centro decisor fue consultado sobre sus preferencias en relación con cada un
 | Proveedor A             | 1             | 8       |   1  |
 | Proveedor B             | 1/8           | 1       |  1/8   |
 | Proveedor C       | 1           | 8             |  1   |
+
+
+## Solución con Funciones en script de R
+
+### Paso 1: Introducir los datos
+
+
+```{r}
+# Matriz de Citerios
+nb.criterios=c("Costos", "Confiabilidad de productos",  "Plazos entrega")
+tb0601 = multicriterio.crea.matrizvaloraciones_mej(c(7,9,3),
+                                                  numalternativas = 3,
+                                                  v.nombres.alternativas = nb.criterios) # la diagonal superior
+
+tb0601
+```
+
+
+```{r}
+# Costo
+nb.alternativas=c("A","B","C")
+tb0602a = multicriterio.crea.matrizvaloraciones_mej(c(1/3,6,8),
+                                                  numalternativas = 3,
+                                                  v.nombres.alternativas = nb.alternativas) # la diagonal superior
+
+tb0602a
+```
+
+
+
+```{r}
+# Confiabilidad
+nb.alternativas=c("A","B","C")
+tb0602b = multicriterio.crea.matrizvaloraciones_mej(c(6,2,1/3),
+                                                  numalternativas = 3,
+                                                  v.nombres.alternativas = nb.alternativas) # la diagonal superior
+
+tb0602b
+```
+
+```{r}
+# Plazo entrega
+nb.alternativas=c("A","B","C")
+tb0602c = multicriterio.crea.matrizvaloraciones_mej(c(8,1,1/8),
+                                                  numalternativas = 3,
+                                                  v.nombres.alternativas = nb.alternativas) # la diagonal superior
+
+tb0602c
+```
+
+
+
+
+### Paso 2: Obtenemos los pesos locales
+
+```{r}
+(pl0601 = multicriterio.metodoAHP.variante1.autovectormayorautovalor(tb0601)) #pesoslocales0601
+```
+
+- El coeficiente de inconsistencia es 0.069224, se trata del valor frontera. Si está por debajo, las comparativas mantienen las reglas de las comparaciones y si por el contrario lo supera, debo revisar la matriz de comparaciones dos a dos, ya que tiene incongruencias.
+
+
+
+```{r}
+(pl0602a = multicriterio.metodoAHP.variante1.autovectormayorautovalor(tb0602a)) #pesoslocales0602a
+
+```
+
+```{r}
+(pl0602b = multicriterio.metodoAHP.variante1.autovectormayorautovalor(tb0602b)) #pesoslocales0602b
+```
+
+```{r}
+(pl0602c = multicriterio.metodoAHP.variante1.autovectormayorautovalor(tb0602c)) #pesoslocales0602b
+```
+
+
+
+### Paso 3: Cálculo de pesos globales
+
+Nos queda obtener finalmente los pesos globales:
+
+```{r}
+(sol05=multicriterio.metodoAHP.pesosglobales_entabla(pl0601$valoraciones.ahp, 
+                                                     rbind(
+                                                       pl0602a$valoraciones.ahp,         
+                                                       pl0602b$valoraciones.ahp,  
+                                                       pl0602c$valoraciones.ahp)))
+
+```
+
+
+
+
+
+
+Apartado b)
+Prioridades de cada matriz de comparaciones por pares:
+
+
+- Costos: De ese 78.5%, el peso del provedoor A era del 78.5%, por lo que obtenemos un peso del 22.4% total, mientras que para el proveedor B, el peso era de 28.5%, obteniendo únicamente un 22.4%. Por último, para el proveedor C, su peso global era del 65.3%, obteniendo así un peso del 51.3%
+
+- Fiabilidad: De ese 14.9%, el peso del provedoor A era del 60%, por lo que obtenemos un peso del 8.9% total, mientras que para el proveedor B, el peso era de 10%, obteniendo únicamente un 2.5%. Por último, para el proveedor C, su peso global era del 30%, obteniendo así un peso del 4.5%
+
+- Plazos de entrega: El peso de este criterio es el más bajo de todo. De ese 6.6%, el peso del provedoor A era del 45.7%, por lo que obtenemos un peso del 3.1% total, mientras que para el proveedor B, el peso era de 0.4%, obteniendo únicamente un 22.4%. Por último, para el proveedor C, su peso global era del 47.1%, obteniendo así un peso del 3.1%
+
+
+
+apartado c) Prioridad global:
+
+- Solución: La alternativa elegida es el proveedor B.
+- El peso de esta alternativa B (53.13%) frente a un peso (34.41%) de la alternativa A  y (12.45%) de la alternativa C 
+- El peso global del criterio COSTOS (78.53%) es bastante superior a los pesos del resto de criterios (14%) del criterio confiabilidad y (6%) de plazos de entrega. Por lo que este criterio será determinante de cara a tomar una decisión
+
+
+
+
+
+
+### Paso 4: Diagrama de jerarquía
+
+El diagrama con la estructura jerárquica:
+
+```{r}
+xmatn01=tb0601 # meto la tabla tb0501
+xmatn02=array(NA,dim=c(3,3,3)) # dos alternativas y 3 criterios
+xmatn02[,,1]=tb0602a
+xmatn02[,,2]=tb0602b
+xmatn02[,,3]=tb0602c
+
+dimnames(xmatn02)[[1]]=nb.alternativas
+dimnames(xmatn02)[[2]]=nb.alternativas
+dimnames(xmatn02)[[3]]=nb.criterios
+# library(diagram)
+multicriterio.metodoahp.diagrama(xmatn01,xmatn02) # matriz del nivel 1 y 2
+```
+
+
+
+
+
 
 ## Solución Con paquete ahp
 
@@ -779,9 +973,46 @@ ahp::AnalyzeTable(dt06, sort="orig")
 
 
 
+(b) Calcular las ponderaciones asociadas a cada criterio manejado.
+
+- Criterio:COSTOS  78%
+- Criterio Fiabilidad: 14.9%
+- Criterio Plazos de entrega: 6.6%
+
+
+(c) Calcular las ponderaciones de las 3 alternativas en función de cada criterio.
+
+- Criterio:COSTOS Alt1 28.5%, Alt2 65.3%, Alt3 6.2%
+- Criterio Fiabilidad:  Alt1 60.0%, Alt2 10.0%,Alt3 30.0%
+- Criterio Plazos de entrega: Alt1 47.1%, Alt2 5.9%, Alt3 47.1%
+
+
+
+(d) Verificar la consistencia de las preferencias del centro decisor.
+
+- El coeficiente de inconsistencia es 0.069224, se trata del valor frontera. Si está por debajo, las comparativas mantienen las reglas de las comparaciones y si por el contrario lo supera, debo revisar la matriz de comparaciones dos a dos, ya que tiene incongruencias.
+
+
+(e) Determinar la prioridad global de cada proveedor.
+
+Proveedor A: 34.4%
+Proveedor B: 53.1%
+Proveedor C: 12.5%
+
+
+
+
+
+
 # Ejercicio 7
 
+
+
+
+## Iteración 1: Introduzco datos y resuelvo
+
 ```{r}
+# EL ÚLTIMO CRITERIO ES DE MINIMIZAR
 p7 = multicriterio.crea.matrizdecision(
   vector_matporfilas = c(
   100 ,15 ,7 ,40   ,-50,
@@ -794,15 +1025,20 @@ p7 = multicriterio.crea.matrizdecision(
   
  
 )
-(w=c(0.25,0.25,0.2,0.2,0.2))
-(vd = c(60,Inf,4,Inf,Inf))
+(w=c(0.25,0.25,0.2,0.2,0.2)) # PESOS (ponderación)
+(vd = c(60,Inf,4,Inf,Inf)) #
 ```
 
+Vemos que los criterios 1 y 2 tienen algo más de peso que el resto de criterios.
+
+
+
 ```{r}
-sal7i1=multicriterio.metodoELECTRE_I(p7,pesos.criterios = w,
-                                   nivel.concordancia.minimo.alpha = 0.7,
-                                   no.se.compensan = vd,
-                                   que.alternativas = TRUE
+sal7i1=multicriterio.metodoELECTRE_I(p7, # Matriz de decisión
+                                     pesos.criterios = w, # Pesos de los criterios
+                                   nivel.concordancia.minimo.alpha = 0.7, # Alfa mínimo
+                                   no.se.compensan = vd, # Discordancia
+                                   que.alternativas = TRUE # Considera TODAS
                                    )
 #sal7i1
 ```
@@ -813,22 +1049,59 @@ Representación del grafo
 qgraph::qgraph(sal7i1$relacion.dominante)
 ```
 
-En la siguiente iteración:
+Conclusión:
+
+- A3 no domina a nadie, no salen flechas
+- A1 no domina a nadie
+- A5 domina a A1, A2 y A3
+- A4 somina a A1, A2 y A3
+- A2 domina a A3 y A1
+
+Tomamos como núcleo inicial:
 
 ```{r}
-sal7i2=multicriterio.metodoELECTRE_I(p7,pesos.criterios = w,
-                                   nivel.concordancia.minimo.alpha = 0.7,
-                                   no.se.compensan = vd,
-                                   que.alternativas = c(4,5)
+sal7i1$nucleo_aprox
+```
+
+
+## Iteración 2: Reduzco alternativas y/o alpha
+
+En la siguiente iteración:
+
+
+
+
+Método electre, pasos a seguir:
+
+- Reducir el grafo a las alternativas en el núcleo. Si mi núcleo fuera de 3 en vez de dos, me quedo primero con 2 y luego aplico esto
+- Reduzco $\alpha \in [0.5,1)$
+
+```{r}
+sal7i2=multicriterio.metodoELECTRE_I(p7,
+                                     pesos.criterios = w,
+                                     nivel.concordancia.minimo.alpha = 0.7,
+                                     no.se.compensan = vd,
+                                     que.alternativas = c(4,5) # El núcleo, vector con las alternativas que me quedan
                                    )
-sal7i2$relacion.dominante
+```
+
+
+
+
+```{r}
 sal7i2$nucleo_aprox
 ```
+
+Pone 1 y 2 porque únicamente he dado dos alternativas.
+
 
 ```{r}
 qgraph::qgraph(sal7i2$relacion.dominante)
 ```
 
+## Tercera iteración: Reduzco alternativas y/0 alpha
+
+Como no he obtenido relación de dominancia, reduzco el valor de alpha
 En la siguiente iteración:
 
 ```{r}
@@ -838,8 +1111,16 @@ sal7i3=multicriterio.metodoELECTRE_I(p7,pesos.criterios = w,
                                    que.alternativas = c(4,5)
                                    )
 sal7i3$relacion.dominante
+```
+
+Tengo que A4 domina a A5
+
+
+```{r}
 sal7i3$nucleo_aprox # con 0.55 ya se queda solo a4
 ```
+
+
 
 ```{r}
 qgraph::qgraph(sal7i3$relacion.dominante)
@@ -849,41 +1130,108 @@ Si con 0.5 no somos capaces de establecer una superioridad, decimos que ambas so
 
 Conclusión, mejor alternativa: a4
 
-## La representación de las tables de test con KableExtra
+
+
+
+## Promethee
 
 ```{r}
-library(dplyr)
-library(kableExtra)
-library(stringr)
-sal7ke = func_ELECTRE_Completo(sal7i1)
+sol7promethee2=multicriterio.metodo.promethee_ii(p7,
+                                  pesos.criterios =
+ c(0.25,0.25,0.2,0.2,0.2)/sum(c(0.25,0.25,0.2,0.2,0.2)), # para que sumen 1
+                                  tab.fpref=matrix(c(1,0,0,0,
+                                                   1,0,0,0,
+                                                   1,0,0,0,
+                                                   1,0,0,0,
+                                                   1,0,0,0),ncol=4,byrow = TRUE ))
+sol7promethee2
 ```
 
 ```{r}
-sal7ke$MIndices
-sal7ke$TConcordancia
+order(sol7promethee2$vflujos.netos,decreasing = T)
+```
+
+Por el método electre dijimos que la 4 era mejor que la 5 pero no conseguimos ordenar el resto. Este método si.
+
+Método promethee:
+
+-   Matriz de valoraciones (si es minimizar cambio signo)
+-   Pesos, que deben sumar 1
+-   Funciones de pref de cada uno de los criterios, que espera que se lo pasemos como una matriz byrow=TRUE
+
+
+
+
+
+
+
+
+## Solución con método axiomático Arrow
+
+```{r}
+s7arrow=multicriterio.metodoaxiomatico.ArrowRaymond(p7)
 ```
 
 ```{r}
-qgraph::qgraph(sal7ke$Grafo)
+s7arrow$alternativasordenadas
 ```
 
-El núcleo
+
+
+
+
+## Solución con método axiomático de forma paramétrica
 
 ```{r}
-sal7ke$Nucleo
+p7
 ```
+
+```{r}
+intalfa=seq(1,0.5,by=-0.05)
+intalfa # voy perdiento 5% cada vez
+```
+
+```{r}
+sols= vector("list",length(intalfa))
+for(i in 1:length(intalfa)){
+  p7i = p7
+  p7i[4,]=p7i[4,]*intalfa[i]
+  sol= multicriterio.metodoaxiomatico.ArrowRaymond(p7i)
+  sols[[i]]=sol$alternativasordenadas
+}
+  print(sols)
+```
+Para ver las posiciones de la alternativa "a4":
+
+```{r}
+posiciones_a4= rep(NA,length(intalfa))
+for(i in 1:length(intalfa)){
+  posiciones_a4[i]= which( sols[[i]]=="a4") # le digo que pos es
+}
+posiciones_a4
+```
+
+```{r}
+plot(intalfa,posiciones_a4, type="o", main="Posiciones de la alternativa a4 \n Según alpha")
+```
+Empieza siendo la 1º, luego la 3º y luego la 4º finalmente.
+
+
+
+
+
 
 # Ejercicio 8
 
 ## Promethee I
 
 ```{r}
-tabdec.X = multicriterio.crea.matrizdecision(c(-80,90.-6.-5.4,-8.5,
-                                               -65,58 ,-2,-9.7,-1.1,
-                                               -83,60,-4,-7.2,-4,7,
-                                               -40.80-10,-7.5, -7,10
-                                               -52,72,-6,-2.0, -3,8,
-                                               -94,96,-7,-3.6,-5,6),
+tabdec.X = multicriterio.crea.matrizdecision(c(-80,90 , -6 , -5.4, -8,  5,
+                                               -65,58 , -2  ,-9.7 , -1,   1,
+                                               -83,60 , -4 , -7.2, -4,  7,
+                                               -40,80 , -10, -7.5,  -7, 10,
+                                               -52,72 , -6 , -2.0,  -3, 8,
+                                              - 94,96 , -7  , -3.6 , -5,   6),
                                              numalternativas=6,
                                              numcriterios=6,
                                              v.nombresalt=c("A1","A2","A3","A4","A5","A6"),
@@ -895,14 +1243,26 @@ tabdec.X
 
 ```{r}
 sal8= multicriterio.metodo.promethee_i(tabdec.X,
-                                      pesos.criterios = rep(1/6,6),
-                 tab.fpref=matrix(c(2,10,0,0, # nro ,qi,pi,si
-                                    3,0,30,0,
-                                    5,0.5,5,0,
-                                    4,1,6,0,
-                                    1,0,0,0,
-                                    6,0,0,5),ncol=4,byrow=TRUE))
+                                      pesos.criterios = rep(1/6,6), # porque son 6 criterios, 
+                                      # la suma es 1 entre 6 criterios pues cada criterio 1/6
+                                      # LOS PESOS DEBEN SUMAR 1
+tab.fpref=matrix(c(2,10, 0, 0, # nro ,qi,pi,si
+                   3,0,  30,0,
+                   5,0.5,5, 0,
+                   4,1,  6, 0,
+                   1,0,  0, 0,
+                   6,0,  0, 5),ncol=4,byrow=TRUE))
+tab.fpref=matrix(c(2,10, 0, 0, # nro ,qi,pi,si
+                   3,0,  30,0,
+                   5,0.5,5, 0,
+                   4,1,  6, 0,
+                   1,0,  0, 0,
+                   6,0,  0, 5),ncol=4,byrow=TRUE)
+sal8
 ```
+
+
+
 
 Representar en un grafo:
 
@@ -911,6 +1271,24 @@ qgraph::qgraph(sal8$tablarelacionsupera)
 ```
 
 A5 domina a todos, esa es la mejor
+
+### Medias
+
+```{r}
+Tab.Pthee.I_med_8= multicriterio.metodo.promethee_i_med(tabdecs.X = tabdec.X,
+                                                        pesos.criterios = rep(1/6,6),
+                                                        tab.fpref = tab.fpref)
+
+Tab.Pthee.I_med_8
+```
+
+
+Representar en un grafo:
+
+```{r}
+qgraph::qgraph(Tab.Pthee.I_med_8$tablarelacionsupera)
+```
+
 
 ## Promethee II
 
@@ -923,6 +1301,13 @@ sal8b= multicriterio.metodo.promethee_ii(tabdec.X,
                                     4,1,6,0,
                                     1,0,0,0,
                                     6,0,0,5),ncol=4,byrow=TRUE))
+tab.fpref=matrix(c(2,10,0,0, # nro ,qi,pi,si
+                                    3,0,30,0,
+                                    5,0.5,5,0,
+                                    4,1,6,0,
+                                    1,0,0,0,
+                                    6,0,0,5),ncol=4,byrow=TRUE)
+sal8b
 ```
 
 Representar en un grafo:
@@ -930,6 +1315,8 @@ Representar en un grafo:
 ```{r}
 qgraph::qgraph(sal8b$tablarelacionsupera)
 ```
+
+La 5 domina a todos y nadie le domina.
 
 ```{r}
 order(sal8b$vflujos.netos,decreasing = T)
@@ -946,8 +1333,56 @@ tab.fpref = matrix(c (2,10,1,0,
                       4,1,6,0,
                       1,0,1,0,
                       6,0,1,5) ,ncol=4, byrow=T);
-tab.fpref
+# tab.fpref
 ```
+
+
+
+
+
+
+### Medias
+
+```{r}
+Tab.Pthee.II_med_8= multicriterio.metodo.promethee_ii_med( tabdecs.X = tabdec.X,
+                                                           pesos.criterios = rep(1/6,6),
+                                                          tab.fpref   =  tab.fpref)
+Tab.Pthee.II_med_8
+```
+
+
+
+
+Representar en un grafo:
+
+```{r}
+qgraph::qgraph(Tab.Pthee.II_med_8$tablarelacionsupera)
+```
+
+
+
+Ordenación final con promethee II medias 
+
+```{r}
+order(Tab.Pthee.II_med_8$vflujos.netos,decreasing = T)
+```
+
+### Comparativas con y sin medias
+
+```{r}
+order(sal8b$vflujos.netos,decreasing = T)
+```
+
+
+
+```{r}
+order(Tab.Pthee.II_med_8$vflujos.netos,decreasing = T)
+```
+
+La ordenación es la misma.
+
+## Representación gráfica de las funciones de preferencia
+
 
 ```{r}
 fpref.criterio_usual_di = function(di) {
@@ -1049,33 +1484,7 @@ y= sapply (x,function(xx) fpref.criterio_preflineal_indif_di(xx,pi=4,qi=2))
 plot (x,y, type="l", col="blue" ,main= "Criterio Pref. Lineal Indiferencia: F5 (con qi=2 y pi=4)")
 ```
 
-# Solución del problema 7 con Promethee
-
-```{r}
-sol7promethee2=multicriterio.metodo.promethee_ii(p7,
-                                  pesos.criterios =
- c(0.25,0.25,0.2,0.2,0.2)/sum(c(0.25,0.25,0.2,0.2,0.2)), # para que sumen 1
-                                  tab.fpref=matrix(c(1,0,0,0,
-                                                   1,0,0,0,
-                                                   1,0,0,0,
-                                                   1,0,0,0,
-                                                   1,0,0,0),ncol=4,byrow = TRUE )        )
-sol7promethee2
-```
-
-```{r}
-order(sol7promethee2$vflujos.netos,decreasing = T)
-```
-
-Por el método electre dijimos que la 4 era mejor que la 5 pero no conseguimos ordenar el resto. Este método si.
-
-Método promethee:
-
--   Matriz de valoraciones (si es minimizar cambio signo)
--   Pesos, que deben sumar 1
--   Funciones de pref de cada uno de los criterios, que espera que se lo pasemos como una matriz byrow=TRUE
-
-# Problema 8 por método electre
+## Método electre
 
 Método electre:
 
@@ -1083,12 +1492,15 @@ Método electre:
 -   Alpha
 -   Pesos de comparación, podríamos ponerlos todos infinitos
 
+### Primera iteración
+
+
 ```{r}
 sal8electre=multicriterio.metodoELECTRE_I(tabdec.X,
                                           pesos.criterios = rep(1/6,6),
-                                   nivel.concordancia.minimo.alpha = 0.7,
-                                   no.se.compensan = rep(Inf,6),
-                                   que.alternativas = TRUE
+                                          nivel.concordancia.minimo.alpha = 0.7,
+                                          no.se.compensan = rep(Inf,6),
+                                          que.alternativas = TRUE
                                    )
 sal8electre$nucleo_aprox
 ```
@@ -1099,20 +1511,27 @@ Representación del grafo
 qgraph::qgraph(sal8electre$relacion.dominante)
 ```
 
+### Segunda iteración
+
 En la siguiente iteración:
 
 ```{r}
 sal8electrei2=multicriterio.metodoELECTRE_I(tabdec.X, pesos.criterios = rep(1/6,6),
-                                   nivel.concordancia.minimo.alpha = 0.7,
-                                   no.se.compensan = rep(Inf,6),
-                                   que.alternativas = c(2,4,5))
+                                            nivel.concordancia.minimo.alpha = 0.7,
+                                            no.se.compensan = rep(Inf,6),
+                                            que.alternativas = c(2,4,5))
                                    
 sal8electrei2$nucleo_aprox
 ```
+El núcleo es el mismo que antes. Tengo que bajar alpha
+
+
 
 ```{r}
 qgraph::qgraph(sal8electrei2$relacion.dominante)
 ```
+
+### Tercera iteracción
 
 En la siguiente iteración:
 
@@ -1125,6 +1544,11 @@ sal8electrei3=multicriterio.metodoELECTRE_I(tabdec.X, pesos.criterios = rep(1/6,
 sal8electrei3$nucleo_aprox
 ```
 
+
+Ahora el núcleo son las alternativas 4 y 5.
+
+### Cuarta iteración
+
 ```{r}
 sal8electrei4=multicriterio.metodoELECTRE_I(tabdec.X, pesos.criterios = rep(1/6,6),
                                    nivel.concordancia.minimo.alpha = 0.505,
@@ -1133,5 +1557,107 @@ sal8electrei4=multicriterio.metodoELECTRE_I(tabdec.X, pesos.criterios = rep(1/6,
                                    
 sal8electrei4$nucleo_aprox
 ```
+Las dos mejores son la 4 y la 5, no consigo separar entre las dos.
 
-Las dos mejores son la 4 y la 5, no consigo separar entre las dos
+
+### Cálculos en el método electre I La representación de las tables de test con KableExtra
+
+```{r}
+library(dplyr)
+library(kableExtra)
+library(stringr)
+sal8ke = func_ELECTRE_Completo(sal8electre)
+```
+
+```{r}
+sal8ke$MIndices
+```
+
+
+
+Con respecto a A1
+
+- En el criterio 2 A1sA5
+- En el criterio 3 y 4 A1sA4
+
+
+- A1 no supera a A2 en los criterios 1, 3 y 5
+- En los criterios 1,3,5 a1 peor a2
+
+
+
+
+
+
+```{r}
+sal8ke$TConcordancia
+```
+
+
+
+Notación:
+
+- F= NO PASA EL TEST DE CONCORDANCIA
+- RESULTADO AZUL: PAREJAS QUE PASAN EL TEST DE CONCORDANCIA
+
+Sólo pasan el test de corcondancia:
+
+- A5SA1
+- A5SA3
+- A5SA6
+
+
+```{r}
+sal8ke$TDiscordancia
+```
+
+Notación:
+
+- F= NO PASA EL TEST DE DISCORDANCIA
+- RESULTADO AZUL: PAREJAS QUE PASAN EL TEST DE DISCORDANCIA
+- LA DIAGONAL SE SUPERA ENTERA PERO NO VA A INFLUIR
+
+Las alternativas que pasaban el test de concordancia también pasan el de discordancia.
+- A5SA1
+- A5SA3
+- A5SA6
+
+
+
+```{r}
+sal8ke$TSuperacion$KE
+```
+
+CONCLUSIÓN:
+
+- A5SA1
+- A5SA3
+- A5SA6
+
+```{r}
+sal8ke$Grafo
+```
+
+
+
+```{r}
+qgraph::qgraph(sal8ke$Grafo)
+```
+
+El núcleo
+
+```{r}
+sal8ke$Nucleo
+```
+
+
+
+
+
+
+
+
+
+
+
+
