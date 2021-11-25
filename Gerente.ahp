@@ -1,0 +1,58 @@
+Version: 2.0
+Alternatives: &alternatives
+  SrGonzalez:
+  SraPerez:
+  SrFernandez:
+Goal:
+  name: Solución ejercicio. Seleccionar a un gerente
+  preferences:
+    pairwise:
+      - [ExperienciaLaboral, Educacion,3]
+      - [ExperienciaLaboral, CaractPersonales,1]
+      - [Educacion , CaractPersonales,1/3]
+  children:
+    ExperienciaLaboral:
+      preferences:
+        pairwise:
+          - [SrGonzalez,SraPerez,3]
+          - [SrGonzalez,SrFernandez,1/3]
+          - [SraPerez,SrFernandez,1/7]
+      children: *alternatives 
+    Educacion:
+      preferences:
+        pairwise:
+          - [EducacionFormal,CursoCapacitacion,3]
+      children: 
+       EducacionFormal:
+        preferences:
+         pairwise:
+          - [SrGonzalez,SraPerez,1/5]
+          - [SrGonzalez,SrFernandez,1/3]
+          - [SraPerez,SrFernandez,3]
+        children: *alternatives 
+       CursoCapacitacion:
+        preferences:
+         pairwise:
+          - [SrGonzalez,SraPerez,5]
+          - [SrGonzalez,SrFernandez,3]
+          - [SraPerez,SrFernandez,1/2]
+        children: *alternatives
+    CaractPersonales:
+      preferences:
+        pairwise:
+          - [Entrevista,PruebaPsico,2]
+      children: 
+       Entrevista:
+        preferences:
+         pairwise:
+          - [SrGonzalez,SraPerez,3]
+          - [SrGonzalez,SrFernandez,1]
+          - [SraPerez,SrFernandez,1/3]
+        children: *alternatives 
+       PruebaPsico:
+        preferences:
+         pairwise:
+          - [SrGonzalez,SraPerez,3]
+          - [SrGonzalez,SrFernandez,6]
+          - [SraPerez,SrFernandez,3]
+        children: *alternatives  

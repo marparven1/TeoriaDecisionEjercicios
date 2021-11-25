@@ -1,0 +1,202 @@
+---
+title: "Gerente AHP"
+author: "Marta Venegas Pardo"
+date: "11/25/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r  message=FALSE }
+source("teoriadecision_funciones_multicriterio.R")
+source("teoriadecision_funciones_multicriterio_diagram.R")
+source("teoriadecision_funciones_multicriterio_utiles.R")
+```
+
+## Solución con Funciones en script de R
+
+### Paso 1: Introducir los datos
+
+Pesos locales de los criterios subcriterios
+
+```{r}
+# Matriz de Citerios
+nb.criterios=c("ExperienciaLaboral", "Educacion",  "CaractPersonales")
+tn1 = multicriterio.crea.matrizvaloraciones_mej(c(3,1,1/3),
+                                                  numalternativas = 3,
+                                                  v.nombres.alternativas = nb.criterios) # la diagonal superior
+stn1=multicriterio.metodoAHP.variante1.autovectormayorautovalor(tn1)
+vpn1=round(stn1$valoraciones.ahp,4)
+vpn1
+```
+
+
+```{r}
+# Educacion
+n.subcriterios2=c("EducacionFormal", "CursoCapacitacion")
+tn22 = multicriterio.crea.matrizvaloraciones_mej(c(3),
+                                                  numalternativas = 2,
+                                                  v.nombres.alternativas = n.subcriterios2) # la diagonal superior
+stn22=multicriterio.metodoAHP.variante1.autovectormayorautovalor(tn22)
+vpn22=round(stn22$valoraciones.ahp,4)
+vpn22
+```
+
+
+
+```{r}
+# CaractPersonales
+n.subcriterios3=c("ntrevista", "PruebaPsico")
+tn23 = multicriterio.crea.matrizvaloraciones_mej(c(2),
+                                                  numalternativas = 2,
+                                                  v.nombres.alternativas = n.subcriterios3) # la diagonal superior
+stn23=multicriterio.metodoAHP.variante1.autovectormayorautovalor(tn23)
+vpn23=round(stn23$valoraciones.ahp,4)
+vpn23
+```
+
+
+
+
+```{r}
+c1 = 0.4286 # vpn1[1]
+c21 =   0.1429     * 0.75 # vpn1[2]* vpn21[1]
+c22 =   0.1429     * 0.25 # vpn1[2]* vpn21[2]
+c31 =  0.4286  * 0.6667   # vpn1[3]* vpn22[1]
+c32 = 0.4286  * 0.3333    # vpn1[3]* vpn22[2]
+
+crisub= c(c1,c21,c22,c31,c32)
+crisub
+```
+
+Ahora los pesos locales de las alternativas
+
+```{r}
+# c1: ExperienciaLaboral
+n.alternativas <- c("Sr-Gonzalez", "Sra-Perez","Sr-Fernandez")
+tn3c1 <- multicriterio.crea.matrizvaloraciones_mej(c(3,1/3,1/7),3,n.alternativas)
+stn3c1 <- multicriterio.metodoAHP.variante1.autovectormayorautovalor (tn3c1)
+(vpn3c1 = round(stn3c1$valoraciones.ahp,4))
+```
+
+
+```{r}
+# c1: EducacionFormal
+n.alternativas <- c("Sr-Gonzalez", "Sra-Perez","Sr-Fernandez")
+tn3c21 <- multicriterio.crea.matrizvaloraciones_mej(c(1/5,1/3,3),3,n.alternativas)
+stn3c21 <- multicriterio.metodoAHP.variante1.autovectormayorautovalor (tn3c21)
+(vpn3c21 = round(stn3c21$valoraciones.ahp,4))
+```
+
+
+```{r}
+# c22: CursoCapacitacion
+n.alternativas <- c("Sr-Gonzalez", "Sra-Perez","Sr-Fernandez")
+tn3c22 <- multicriterio.crea.matrizvaloraciones_mej(c(5,3,1/2),3,n.alternativas)
+stn3c22 <- multicriterio.metodoAHP.variante1.autovectormayorautovalor (tn3c22)
+(vpn3c22 = round(stn3c22$valoraciones.ahp,4))
+```
+
+
+```{r}
+# c31: Resultado entrevista
+n.alternativas <- c("Sr-Gonzalez", "Sra-Perez","Sr-Fernandez")
+tn3c31<- multicriterio.crea.matrizvaloraciones_mej(c(3,1,1/3),3,n.alternativas)
+stn3c31 <- multicriterio.metodoAHP.variante1.autovectormayorautovalor (tn3c31)
+(vpn3c31 = round(stn3c31$valoraciones.ahp,4))
+```
+
+```{r}
+# c31: Resultado psico
+n.alternativas <- c("Sr-Gonzalez", "Sra-Perez","Sr-Fernandez")
+tn3c32<- multicriterio.crea.matrizvaloraciones_mej(c(3,6,3),3,n.alternativas)
+stn3c32 <- multicriterio.metodoAHP.variante1.autovectormayorautovalor (tn3c32)
+(vpn3c32 = round(stn3c32$valoraciones.ahp,4))
+```
+
+
+```{r}
+matper=matrix( c( 0.2426     ,  0.0879     ,  0.6694 ,   # vpn3c1
+                     0.1047   ,    0.6370   ,    0.2583 ,  # cpn3c21
+                   0.6483     ,  0.1220   ,    0.2297  , # vpn3c22
+                    0.4286     ,  0.1429    ,   0.4286 , # vpn3c31
+                     0.6548   ,    0.2499     ,  0.0953  # vpn3c32
+                  ), ncol=3 , nrow=5, byrow=TRUE)
+pond.globales = crisub %*% matper
+colnames(pond.globales)=n.alternativas
+pond.globales
+round(pond.globales*100,2)
+```
+
+```{r}
+Mcrisub = matrix(crisub,nrow=5,ncol=3)
+Mcrisub
+pond.globales.parciales = Mcrisub * matper
+round(pond.globales.parciales*100,2)
+```
+
+
+
+
+### Paso 4: Diagrama de jerarquía
+
+El diagrama con la estructura jerárquica:
+
+```{r}
+# xmatn01=tb0601 # meto la tabla tb0501
+# xmatn02=array(NA,dim=c(3,3,3)) # dos alternativas y 3 criterios
+# xmatn02[,,1]=tb0602a
+# xmatn02[,,2]=tb0602b
+# xmatn02[,,3]=tb0602c
+# 
+# dimnames(xmatn02)[[1]]=nb.alternativas
+# dimnames(xmatn02)[[2]]=nb.alternativas
+# dimnames(xmatn02)[[3]]=nb.criterios
+# # library(diagram)
+# multicriterio.metodoahp.diagrama(xmatn01,xmatn02) # matriz del nivel 1 y 2
+```
+
+
+
+
+
+
+
+
+
+
+
+
+## Solución Con paquete ahp
+
+```{r}
+library(ahp)
+dt06 = Load("Gerente.ahp")
+```
+
+```{r message=FALSE}
+Visualize(dt06)
+```
+
+
+
+
+### Tabla para la interpretación
+
+```{r}
+ahp::Calculate(dt06)
+ahp::AnalyzeTable(dt06, sort="orig")
+```
+- Todas las inconsistencias se encuentran por debajo del 10%, que es el nivel de aceptación, por lo que está todo en orden.
+- lo que mas le ha aportado a la sra gonzales para la puntuación total
+
+
+### PEsos locales cirterios subcriterios y alternativas
+
+
+```{r}
+ahp::AnalyzeTable(dt06, sort="orig",variable = "priority")
+```
